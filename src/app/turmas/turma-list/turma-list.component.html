@@ -1,0 +1,37 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" *ngIf="turmas.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let turma of turmas">
+    <mat-expansion-panel-header>{{
+      turma.nome_disciplina
+    }}</mat-expansion-panel-header>
+    <p>{{ turma.professor }}</p>
+    <mat-action-row *ngIf="userIsAuthenticated">
+      <button
+        *ngIf="monitoradasCod.indexOf(turma._id) == -1"
+        mat-button
+        color="primary"
+        (click)="onMonitorar(turma._id)"
+      >
+        MONITORAR
+      </button>
+      <button
+        *ngIf="monitoradasCod.indexOf(turma._id) > -1"
+        mat-button
+        color="warn"
+        (click)="onDelete(turma._id)"
+      >
+        PARAR
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-paginator
+  *ngIf="turmas.length > 0"
+  [length]="totalTurmas"
+  [pageSize]="turmasPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"
+></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="turmas.length <= 0 && !isLoading">
+  No turmas added yet!
+</p>

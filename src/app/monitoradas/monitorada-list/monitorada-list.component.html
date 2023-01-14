@@ -1,0 +1,18 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" *ngIf="monitoradas && !isLoading">
+  <mat-expansion-panel *ngFor="let monitorada of monitoradas">
+    <mat-expansion-panel-header>{{
+      monitorada.turmaId.nome_disciplina
+    }}</mat-expansion-panel-header>
+    <p>{{ monitorada.turmaId.professor }}</p>
+    <mat-action-row *ngIf="userIsAuthenticated">
+      <button
+        mat-button
+        color="warn"
+        (click)="onDelete(monitorada.turmaId._id)"
+      >
+        PARAR
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
