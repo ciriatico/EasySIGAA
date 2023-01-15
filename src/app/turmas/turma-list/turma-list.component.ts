@@ -27,10 +27,20 @@ export class TurmaListComponent implements OnInit, OnDestroy {
   private turmasSub: Subscription;
   private monitoradasSub: Subscription;
 
+  departamentos: number[];
+  filtroDepartamento: number;
+  filtroProfessor: string;
+  filtroNome: string;
+
+  paginatedTurmas: Turma[]
+
+
+  filteredTurmas: Turma[] = [];
+
   constructor(
     public turmasService: TurmasService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -54,29 +64,54 @@ export class TurmaListComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.turmasService.getTurmas(this.turmasPerPage, this.currentPage);
     this.isLoading = true;
     this.userId = this.authService.getUserId();
     this.turmasSub = this.turmasService
-      .getTurmaUpdateListener()
-      .subscribe((turmaData: { turmas: Turma[]; turmaCount: number }) => {
-        this.turmas = turmaData.turmas;
-        this.totalTurmas = turmaData.turmaCount;
+      .getTurmas()
+      .subscribe(data => {
+        this.turmas = data.turmas;
+        this.filteredTurmas = data.turmas;
+        this.totalTurmas = this.filteredTurmas.length
+        this.onChangedPage({ pageIndex: 0, pageSize: this.turmasPerPage, length: this.totalTurmas });
         this.isLoading = false;
       });
+
+    this.turmasService.getDepartamentos().subscribe(data => {
+      this.departamentos = data.departamentos;
+    })
+  }
+
+  onChangeFilter() {
+    this.isLoading = true;
+    this.filteredTurmas = this.turmas;
+    if (this.filtroDepartamento) {
+      this.filteredTurmas = this.filteredTurmas.filter(turma => turma.cod_depto === this.filtroDepartamento);
+    }
+
+    if (this.filtroProfessor) {
+      this.filteredTurmas = this.filteredTurmas.filter(turma => turma.professor.toLowerCase().includes(this.filtroProfessor.toLowerCase()));
+    }
+
+    if (this.filtroNome) {
+      this.filteredTurmas = this.filteredTurmas.filter(turma => turma.nome_disciplina.toLowerCase().includes(this.filtroNome.toLowerCase()))
+    }
+
+    this.totalTurmas = this.filteredTurmas.length
+    this.onChangedPage({ pageIndex: 0, pageSize: this.turmasPerPage, length: this.totalTurmas });
+    this.isLoading = false;
   }
 
   onChangedPage(pageData: PageEvent) {
-    this.isLoading = true;
-    this.currentPage = pageData.pageIndex + 1;
+    this.isLoading = true
     this.turmasPerPage = pageData.pageSize;
-    this.turmasService.getTurmas(this.turmasPerPage, this.currentPage);
+    this.paginatedTurmas = this.filteredTurmas.slice(pageData.pageIndex * pageData.pageSize, (pageData.pageIndex + 1) * pageData.pageSize);
+    this.isLoading = false
   }
 
   onMonitorar(turmaId: string) {
     this.isLoading = true;
     this.turmasService.monitorarTurma(turmaId).subscribe(() => {
-      this.turmasService.getTurmas(this.turmasPerPage, this.currentPage);
+      this.turmasService.getTurmas();
       this.monitoradas = this.turmasService.getTurmasMonitoradas(false);
     });
   }

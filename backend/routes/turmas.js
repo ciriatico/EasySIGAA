@@ -7,27 +7,22 @@ const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 
 router.get("", (req, res, next) => {
-  const pageSize = +req.query.pageSize;
-  const currentPage = +req.query.page;
-  const turmaQuery = Turma.find();
-  let fetchedTurmas;
-
-  if (pageSize && currentPage) {
-    turmaQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-  }
-  turmaQuery
-    .then((documents) => {
-      fetchedTurmas = documents;
-      return Turma.count();
-    })
-    .then((count) => {
-      res.status(200).json({
-        message: "Turmas retornadas com sucesso",
-        turmas: fetchedTurmas,
-        maxTurmas: count,
-      });
+  Turma.find().then((data) => {
+    res.status(200).json({
+      message: "Turmas retornadas com sucesso",
+      turmas: data,
     });
+  });
 });
+
+router.get("/departamentos", (req, res, next) => {
+  Turma.distinct('cod_depto').then((data) => {
+    res.status(200).json({
+      message: "Departamentos retornados com sucesso",
+      departamentos: data
+    });
+  });
+})
 
 router.get("/monitorar/:id", checkAuth, (req, res, next) => {
   monitorada = new Monitorada({

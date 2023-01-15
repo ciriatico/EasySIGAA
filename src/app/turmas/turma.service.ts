@@ -17,41 +17,35 @@ export class TurmasService {
   }>();
   private monitoradasUpdated = new Subject<{ monitoradas: Monitorada[] }>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
-  getTurmas(turmasPerPage: number, currentPage: number) {
-    const queryParams = `?pageSize=${turmasPerPage}&page=${currentPage}`;
-    this.http
-      .get<{
-        message: string;
-        turmas: {
-          _id: string;
-          turma: number;
-          periodo: string;
-          professor: string;
-          horario: string;
-          vagas_ocupadas: number;
-          vagas_total: number;
-          local: string;
-          cod_disciplina: string;
-          cod_unico_disciplina: number;
-          cod_depto: number;
-          nome_disciplina: string;
-        }[];
-        maxTurmas: number;
-      }>('http://localhost:3000/api/turmas' + queryParams)
-      .pipe(
-        map((turmaData) => {
-          return turmaData;
-        })
-      )
-      .subscribe((transformedTurmaData) => {
-        this.turmas = transformedTurmaData.turmas;
-        this.turmasUpdated.next({
-          turmas: [...this.turmas],
-          turmaCount: transformedTurmaData.maxTurmas,
-        });
-      });
+  getTurmas() {
+    return this.http
+    .get<{
+      message: string;
+      turmas: {
+        _id: string;
+        turma: number;
+        periodo: string;
+        professor: string;
+        horario: string;
+        vagas_ocupadas: number;
+        vagas_total: number;
+        local: string;
+        cod_disciplina: string;
+        cod_unico_disciplina: number;
+        cod_depto: number;
+        nome_disciplina: string;
+      }[];
+      maxTurmas: number;
+    }>('http://localhost:3000/api/turmas');
+  }
+
+  getDepartamentos() {
+    return this.http.get<{
+      message: String;
+      departamentos: number[];
+    }>('http://localhost:3000/api/turmas/departamentos')
   }
 
   getTurmaUpdateListener() {

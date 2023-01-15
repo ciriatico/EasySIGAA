@@ -14,3 +14,11 @@ mat-spinner {
 mat-paginator {
   margin-top: 1rem;
 }
+
+mat-form-field {
+  margin-right: 1rem;
+}
+
+mat-card {
+  margin-bottom: 1rem;
+}

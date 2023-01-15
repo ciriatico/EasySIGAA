@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -42,6 +43,7 @@ import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorad
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatSelectModule,
     HttpClientModule,
   ],
   providers: [
