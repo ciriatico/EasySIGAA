@@ -11,7 +11,7 @@ const app = express();
 mongoose.set("strictQuery", true);
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/easysigaa', {
+  .connect("mongodb+srv://root:root@cluster0.cstyiqc.mongodb.net/easysigaa", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
