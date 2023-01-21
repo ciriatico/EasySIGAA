@@ -2,20 +2,23 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/user");
+const Usuario = require("../models/usuario");
 
 const router = express.Router();
 
 router.post("/signup", (req, res, next) => {
   bcrypt
-    .hash(req.body.password, 10)
+    .hash(req.body.senha, 10)
     .then((hash) => {
-      const user = new User({
+      const usuario = new Usuario({
         email: req.body.email,
-        password: hash,
+        nome: req.body.nome,
+        senha: hash,
+        receberNot: req.body.receberNot,
+        maxNot: req.body.maxNot,
       });
-      user.save().then((result) => {
-        res.status(201).json({ message: "User created", result: result });
+      usuario.save().then((result) => {
+        res.status(201).json({ message: "Usuário criado.", result: result });
       });
     })
     .catch((err) => {
@@ -25,13 +28,13 @@ router.post("/signup", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
   let fetchedUser;
-  User.findOne({ email: req.body.email })
+  Usuario.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
         throw new Error("E-mail doesn't exist!");
       }
       fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
+      return bcrypt.compare(req.body.senha, user.senha);
     })
     .then((result) => {
       if (!result) {

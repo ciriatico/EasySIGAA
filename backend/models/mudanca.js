@@ -1,21 +1,23 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const mudancaSchema = mongoose.Schema(
   {
     turmaId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Turma',
-      required: true
+      ref: "Turma",
+      required: true,
     },
-    variacao: {
+    ocupadas: {
       type: Number,
-      required: true
+      required: true,
     },
-    data: {
+    dataCaptura: {
       type: Date,
-      required: true
-    }
-  }
-)
+      required: true,
+      default: Date.now,
+    },
+  },
+  { versionKey: false }
+);
 
-module.exports = mongoose.model('Mudanca', mudancaSchema)
+module.exports = mongoose.model("Mudanca", mudancaSchema);

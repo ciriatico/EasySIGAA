@@ -2,7 +2,7 @@
 <mat-accordion multi="true" *ngIf="monitoradas && !isLoading">
   <mat-expansion-panel *ngFor="let monitorada of monitoradas">
     <mat-expansion-panel-header>{{
-      monitorada.turmaId.nome_disciplina
+      monitorada.turmaId.nomeDisciplina
     }}</mat-expansion-panel-header>
     <p>{{ monitorada.turmaId.professor }}</p>
     <mat-action-row *ngIf="userIsAuthenticated">

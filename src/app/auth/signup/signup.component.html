@@ -4,6 +4,20 @@
     <mat-form-field>
       <input
         matInput
+        name="nome"
+        ngModel
+        type="text"
+        placeholder="Nome"
+        #nomeInput="ngModel"
+        required
+      />
+      <mat-error *ngIf="nomeInput.invalid"
+        >Por favor, insira um nome válido.</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
         name="email"
         ngModel
         type="email"
@@ -13,25 +27,25 @@
         email
       />
       <mat-error *ngIf="emailInput.invalid"
-        >Please, enter a valid e-mail.</mat-error
+        >Por favor, insira um e-mail válido.</mat-error
       >
     </mat-form-field>
     <mat-form-field>
       <input
         type="password"
         matInput
-        name="password"
-        placeholder="Password"
+        name="senha"
+        placeholder="Senha"
         ngModel
-        #passwordInput="ngModel"
+        #senhaInput="ngModel"
         required
       />
-      <mat-error *ngIf="passwordInput.invalid"
-        >Please, enter a valid password.</mat-error
+      <mat-error *ngIf="senhaInput.invalid"
+        >Por favor, insira uma senha válida.</mat-error
       >
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">
-      Sign-Up
+      Registrar
     </button>
   </mat-card>
 </form>

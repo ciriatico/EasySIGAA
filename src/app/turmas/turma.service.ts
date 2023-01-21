@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Subject } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { Turma } from './turma.model';
-import { Router } from '@angular/router';
-import { Monitorada } from './monitorada.model';
+import { Turma } from "./turma.model";
+import { Router } from "@angular/router";
+import { Monitorada } from "./monitorada.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class TurmasService {
   private turmas: Turma[] = [];
   private monitoradas: Monitorada[] = [];
@@ -17,35 +17,21 @@ export class TurmasService {
   }>();
   private monitoradasUpdated = new Subject<{ monitoradas: Monitorada[] }>();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   getTurmas() {
-    return this.http
-    .get<{
+    return this.http.get<{
       message: string;
-      turmas: {
-        _id: string;
-        turma: number;
-        periodo: string;
-        professor: string;
-        horario: string;
-        vagas_ocupadas: number;
-        vagas_total: number;
-        local: string;
-        cod_disciplina: string;
-        cod_unico_disciplina: number;
-        cod_depto: number;
-        nome_disciplina: string;
-      }[];
+      turmas: Turma[];
       maxTurmas: number;
-    }>('http://localhost:3000/api/turmas');
+    }>("http://localhost:3000/api/turmas");
   }
 
   getDepartamentos() {
     return this.http.get<{
       message: String;
       departamentos: number[];
-    }>('http://localhost:3000/api/turmas/departamentos')
+    }>("http://localhost:3000/api/turmas/departamentos");
   }
 
   getTurmaUpdateListener() {
@@ -58,17 +44,16 @@ export class TurmasService {
 
   monitorarTurma(turmaId: string) {
     return this.http.get<{ message: string; monitorada: any }>(
-      'http://localhost:3000/api/turmas/monitorar/' + turmaId
+      "http://localhost:3000/api/turmas/monitorar/" + turmaId
     );
   }
 
   getTurmasMonitoradas(full: boolean) {
-    console.log('Indooo');
     let url: string;
     if (full) {
-      url = 'http://localhost:3000/api/turmas/monitoradas?full=true';
+      url = "http://localhost:3000/api/turmas/monitoradas?full=true";
     } else {
-      url = 'http://localhost:3000/api/turmas/monitoradas?full=false';
+      url = "http://localhost:3000/api/turmas/monitoradas?full=false";
     }
 
     this.http.get<{ turmasMonitoradas: any }>(url).subscribe((docs) => {
@@ -79,7 +64,7 @@ export class TurmasService {
 
   deleteMonitorada(turmaId: string) {
     return this.http.delete(
-      'http://localhost:3000/api/turmas/monitorar/' + turmaId
+      "http://localhost:3000/api/turmas/monitorar/" + turmaId
     );
   }
 }

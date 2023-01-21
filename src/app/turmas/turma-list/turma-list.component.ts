@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 
-import { Turma } from '../turma.model';
-import { PageEvent } from '@angular/material/paginator';
-import { TurmasService } from '../turma.service';
-import { AuthService } from 'src/app/auth/auth.service';
-import { Monitorada } from '../monitorada.model';
+import { Turma } from "../turma.model";
+import { PageEvent } from "@angular/material/paginator";
+import { TurmasService } from "../turma.service";
+import { AuthService } from "src/app/auth/auth.service";
+import { Monitorada } from "../monitorada.model";
 
 @Component({
-  selector: 'app-turma-list',
-  templateUrl: './turma-list.component.html',
-  styleUrls: ['./turma-list.component.css'],
+  selector: "app-turma-list",
+  templateUrl: "./turma-list.component.html",
+  styleUrls: ["./turma-list.component.css"],
 })
 export class TurmaListComponent implements OnInit, OnDestroy {
   monitoradas: Monitorada[] | void;
@@ -32,15 +32,14 @@ export class TurmaListComponent implements OnInit, OnDestroy {
   filtroProfessor: string;
   filtroNome: string;
 
-  paginatedTurmas: Turma[]
-
+  paginatedTurmas: Turma[];
 
   filteredTurmas: Turma[] = [];
 
   constructor(
     public turmasService: TurmasService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -60,52 +59,71 @@ export class TurmaListComponent implements OnInit, OnDestroy {
         .subscribe((monitoradaData: { monitoradas: Monitorada[] }) => {
           this.monitoradas = monitoradaData.monitoradas;
           this.monitoradasCod = this.monitoradas.map((value) => value.turmaId);
-          this.isLoading = false;
+          this.isLoading = this.turmas.length <= 0 ? true : false;
         });
     }
 
     this.isLoading = true;
     this.userId = this.authService.getUserId();
-    this.turmasSub = this.turmasService
-      .getTurmas()
-      .subscribe(data => {
-        this.turmas = data.turmas;
-        this.filteredTurmas = data.turmas;
-        this.totalTurmas = this.filteredTurmas.length
-        this.onChangedPage({ pageIndex: 0, pageSize: this.turmasPerPage, length: this.totalTurmas });
-        this.isLoading = false;
+    this.turmasSub = this.turmasService.getTurmas().subscribe((data) => {
+      this.turmas = data.turmas;
+      this.filteredTurmas = data.turmas;
+      this.totalTurmas = this.filteredTurmas.length;
+      this.onChangedPage({
+        pageIndex: 0,
+        pageSize: this.turmasPerPage,
+        length: this.totalTurmas,
       });
+      this.isLoading = false;
+    });
 
-    this.turmasService.getDepartamentos().subscribe(data => {
+    this.turmasService.getDepartamentos().subscribe((data) => {
       this.departamentos = data.departamentos;
-    })
+    });
   }
 
   onChangeFilter() {
     this.isLoading = true;
     this.filteredTurmas = this.turmas;
     if (this.filtroDepartamento) {
-      this.filteredTurmas = this.filteredTurmas.filter(turma => turma.cod_depto === this.filtroDepartamento);
+      this.filteredTurmas = this.filteredTurmas.filter(
+        (turma) => turma.codDepto === this.filtroDepartamento
+      );
     }
 
     if (this.filtroProfessor) {
-      this.filteredTurmas = this.filteredTurmas.filter(turma => turma.professor.toLowerCase().includes(this.filtroProfessor.toLowerCase()));
+      this.filteredTurmas = this.filteredTurmas.filter((turma) =>
+        turma.professor
+          .toLowerCase()
+          .includes(this.filtroProfessor.toLowerCase())
+      );
     }
 
     if (this.filtroNome) {
-      this.filteredTurmas = this.filteredTurmas.filter(turma => turma.nome_disciplina.toLowerCase().includes(this.filtroNome.toLowerCase()))
+      this.filteredTurmas = this.filteredTurmas.filter((turma) =>
+        turma.nomeDisciplina
+          .toLowerCase()
+          .includes(this.filtroNome.toLowerCase())
+      );
     }
 
-    this.totalTurmas = this.filteredTurmas.length
-    this.onChangedPage({ pageIndex: 0, pageSize: this.turmasPerPage, length: this.totalTurmas });
+    this.totalTurmas = this.filteredTurmas.length;
+    this.onChangedPage({
+      pageIndex: 0,
+      pageSize: this.turmasPerPage,
+      length: this.totalTurmas,
+    });
     this.isLoading = false;
   }
 
   onChangedPage(pageData: PageEvent) {
-    this.isLoading = true
+    this.isLoading = true;
     this.turmasPerPage = pageData.pageSize;
-    this.paginatedTurmas = this.filteredTurmas.slice(pageData.pageIndex * pageData.pageSize, (pageData.pageIndex + 1) * pageData.pageSize);
-    this.isLoading = false
+    this.paginatedTurmas = this.filteredTurmas.slice(
+      pageData.pageIndex * pageData.pageSize,
+      (pageData.pageIndex + 1) * pageData.pageSize
+    );
+    this.isLoading = false;
   }
 
   onMonitorar(turmaId: string) {
