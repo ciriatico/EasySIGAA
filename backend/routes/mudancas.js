@@ -3,11 +3,10 @@ const Mudanca = require('../models/mudanca')
 
 const router = express.Router()
 
-router.post('/mudar/:id/:variacao', (req, res, next) => {
+router.post('/mudar/:id/:ocupadas', (req, res, next) => {
   mudanca = new Mudanca({
     turmaId: req.params.id,
-    data: new Date(),
-    variacao: req.params.variacao
+    ocupadas: req.params.ocupadas
   })
   mudanca.save().then(
     newMudanca => {
@@ -17,7 +16,7 @@ router.post('/mudar/:id/:variacao', (req, res, next) => {
           id: newMudanca._id,
           turmaId: newMudanca.userId,
           data: newMudanca.data,
-          variacao: newMudanca.variacao
+          ocupadas: newMudanca.ocupadas
         }
       })
     },
