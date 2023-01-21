@@ -22,25 +22,37 @@ const mailgunAuth = {
 
 const smtpTransport = nodemailer.createTransport(mg(mailgunAuth));
 
-function sendEmail(data) {
+async function sendEmail(data) {
+  const fake = true;
+
   const mailOptions = {
     from: "admin@easysigaa.com.br",
     to: data.email,
     subject: `EasySIGAA - Vaga em ${data.nomeDisciplina} - turma ${data.codTurma}`,
-    html: `Olá, ${data.nome}, foram liberadas ${data.variacao} vagas na disciplina de ${data.nomeDisciplina}, turma ${data.codTurma}.`,
+    html: `Olá, ${data.nome} de e-mail ${data.email}, foram liberadas ${data.variacao} vagas na disciplina de ${data.nomeDisciplina}, turma ${data.codTurma}.`,
   };
 
-  smtpTransport.sendMail(mailOptions).catch((result) => {
-    console.log("Successfully sent email.");
+  if (fake) {
     const notificacao = new Notificacao({
       usuarioId: data.usuarioId,
       mudancaId: data.mudancaId,
     });
-    notificacao.save();
-  });
+    notificacao.save().then((result) => {
+      console.log(mailOptions.html);
+    });
+  } else {
+    smtpTransport.sendMail(mailOptions).catch((result) => {
+      console.log("Successfully sent email.");
+      const notificacao = new Notificacao({
+        usuarioId: data.usuarioId,
+        mudancaId: data.mudancaId,
+      });
+      notificacao.save();
+    });
+  }
 }
 
-function sendNotifications(mudanca) {
+async function sendNotifications(mudanca) {
   Monitora.find({ turmaId: mudanca.turmaId })
     .populate({
       path: "usuarioId",
@@ -67,7 +79,7 @@ function sendNotifications(mudanca) {
     });
 }
 
-function sendMudanca(newMudanca) {
+async function sendMudanca(newMudanca) {
   const mudanca = new Mudanca({
     turmaId: newMudanca.turmaId,
     ocupadas: newMudanca.ocupadas,
@@ -84,52 +96,76 @@ function sendMudanca(newMudanca) {
   });
 }
 
-function updateTurma(updatedTurma) {
-  let turma;
-  Turma.findOne({ turmaId: updatedTurma.idTurma })
+async function updateTurma(updatedTurma) {
+  Turma.findOne({ idTurma: updatedTurma.idTurma })
     .then((turma) => {
-      this.turma = turma;
-      return Monitora.find({ turmaId: this.turma._id });
+      return Monitora.findOne({ turmaId: turma._id }).populate({
+        path: "turmaId",
+        select: "idTurma vagasOcupadas",
+      });
     })
     .then((monitora) => {
       if (monitora) {
-        variacao = this.turma.vagasOcupadas - updatedTurma.vagasOcupadas;
+        // Se monitora a turma
+        variacao = monitora.turmaId.vagasOcupadas - updatedTurma.vagasOcupadas;
         if (variacao != 0) {
           // Se houve vagas liberadas na turma
           sendMudanca({
-            turmaId: this.turma._id,
+            turmaId: monitora.turmaId._id,
             ocupadas: updatedTurma.vagasOcupadas,
             variacao: variacao,
           });
         }
-      } else {
-        return;
       }
     })
     .then((result) => {
-      this.turma.vagasOcupadas = updatedTurma.vagasOcupadas;
-      this.turma.vagasTotal = updatedTurma.vagasTotal;
-      this.turma.save();
+      Turma.findOne({ turmaId: updatedTurma.idTurma }).then((turma) => {
+        if (turma.vagasOcupadas != updatedTurma.vagasOcupadas) {
+          turma.vagasOcupadas = updatedTurma.vagasOcupadas;
+          turma.vagasTotal = updatedTurma.vagasTotal;
+          turma.save();
+        }
+      });
     });
 }
 
-function getOferta() {
+async function updateTurmasMonitoradas() {
+  Monitora.find()
+    .populate({ path: "turmaId", select: "idTurma" })
+    .then((monitoras) => {
+      let idsMonitorados = new Set();
+      monitoras.forEach((mon) => {
+        idsMonitorados.add(mon.turmaId.idTurma);
+      });
+      idsMonitorados = [...idsMonitorados];
+      axios
+        .post("http://localhost:8000/vagas", { data: idsMonitorados })
+        .then((res) => {
+          res.data.forEach((turma) => {
+            updateTurma(turma);
+          });
+        });
+    });
+}
+
+async function updateTurmas() {
   axios
     .get("http://localhost:8000/oferta")
     .then((res) => {
       turmas = res.data;
-      turmas.forEach(turma => {
+      turmas.forEach((turma) => {
         updateTurma(turma);
-      })
+      });
+      console.log("terminou aqui");
     })
     .catch((err) => {
       console.log(err);
     });
 }
-
-getOferta();
-
-setInterval(getOferta, 150000);
+// Atualiza cada turma. Trava o servidor, deve ser executada em intervalo de horas
+setInterval(updateTurmas, 3600000);
+// Atualiza apenas turmas monitoradas. Pode rodar de 5 em 5 min, gera dados falsos
+setInterval(updateTurmasMonitoradas, 30000);
 
 router.get("", (req, res, next) => {
   Turma.find().then((data) => {

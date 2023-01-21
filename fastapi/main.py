@@ -17,6 +17,9 @@ class TurmaCompara(BaseModel):
 class ListaTurmaCompara(BaseModel):
 	data: List[TurmaCompara]
 
+class ListaVagas(BaseModel):
+	data: list
+
 app = FastAPI()
 
 def df_to_json(df):
@@ -29,34 +32,21 @@ def get_oferta(ano: int = 2022, semestre: int = 2, fake: bool = True):
 		data_json = df_to_json(data)
 		return JSONResponse(content=data_json)
 
-@app.get("/vagas")
-def get_vagas(idTurma: str, ano: int = 2022, semestre: int = 2, fake: bool = True):
-	res_body = get_oferta(ano=ano, semestre=semestre, fake=fake).body
-	oferta_df = pd.DataFrame(json.loads(res_body))
-
-	vagas_json = json.loads(oferta_df[oferta_df['id_turma'] == idTurma][['id_turma', 'ocupadas', 'total']].iloc[0].to_json())
-
-	return JSONResponse(content=vagas_json)
-
-@app.post("/compara_vagas")
-def post_compara(data: ListaTurmaCompara, ano: int = 2022, semestre: int = 2, fake: bool = True, prop: float = 0.4):
-	req_body = json.loads(data.json())["data"]
-	compara_df = pd.DataFrame(req_body)
+@app.post("/vagas")
+def post_compara(data: ListaVagas, ano: int = 2022, semestre: int = 2, fake: bool = True, prop: float = 0.5):
+	ids_pegar = json.loads(data.json())["data"]
 
 	res_body = get_oferta(ano=ano, semestre=semestre, fake=fake).body
-	oferta_df = pd.DataFrame(json.loads(res_body))
+	oferta = pd.DataFrame(json.loads(res_body))
 
-	oferta_filtered = oferta_df[oferta_df['id_turma'].isin(compara_df['id_turma'])].sort_values(['id_turma']).reset_index(drop=True)
-	compara_df = compara_df.sort_values(['id_turma']).reset_index(drop=True)
+	oferta_filtrada = oferta[oferta["idTurma"].isin(ids_pegar)]
 
 	if fake:
-		sample_index = compara_df.sample(frac=prop).index
-		oferta_filtered.loc[sample_index, 'ocupadas'] = compara_df.loc[sample_index].apply(lambda row: random.randint(row['ocupadas']-5 if row['ocupadas']-5 >= 0 else 0, row['total']), axis=1)
+		sample_index = oferta_filtrada.sample(frac=prop).index
+		oferta_filtrada.loc[sample_index, 'vagasOcupadas'] = oferta_filtrada.loc[sample_index].apply(lambda row: random.randint(row['vagasOcupadas']-5 if row['vagasOcupadas']-5 >= 0 else 0, row['vagasTotal']), axis=1)
 
-	oferta_filtered['ocupadas'] = oferta_filtered['ocupadas'] - compara_df['ocupadas']
-	oferta_filtered = oferta_filtered.rename(columns={'ocupadas': 'variacao'})[['id_turma', 'variacao']]
-	oferta_filtered = oferta_filtered[oferta_filtered['variacao'] != 0]
+	oferta_filtrada = oferta_filtrada[["idTurma", "vagasOcupadas", "vagasTotal"]]
 
-	data_json = df_to_json(oferta_filtered)
+	data_json = df_to_json(oferta_filtrada)
 
 	return JSONResponse(content=data_json)
