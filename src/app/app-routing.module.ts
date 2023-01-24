@@ -4,6 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorada-list.component';
+import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 import { TurmaListComponent } from './turmas/turma-list/turma-list.component';
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'monitor', component: MonitoradaListComponent },
+  { path: 'notificacoes', component: NotificacoesComponent}
 ];
 
 @NgModule({

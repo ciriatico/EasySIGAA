@@ -6,10 +6,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon'
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatListModule } from '@angular/material/list';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,6 +22,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorada-list.component';
+import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorad
     LoginComponent,
     SignupComponent,
     MonitoradaListComponent,
+    NotificacoesComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,10 +49,12 @@ import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorad
     MatPaginatorModule,
     MatSelectModule,
     HttpClientModule,
+    MatListModule,
+    MatIconModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

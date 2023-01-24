@@ -28,20 +28,20 @@ router.post('/mudar/:id/:ocupadas', (req, res, next) => {
   )
 })
 
-router.get('/mudancas/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   Mudanca.find({ turmaId: req.params.id }).then(
-    data => {
+    (data) => {
       res.status(200).json({
-        message: 'Mudancas retornadas com sucesso',
-        mudancas: data
-      })
+        message: "Mudancas retornadas com sucesso",
+        mudancas: data,
+      });
     },
-    err => {
+    (err) => {
       res.json({
-        message: err
-      })
+        message: err,
+      });
     }
-  )
+  );
 })
 
 module.exports = router
