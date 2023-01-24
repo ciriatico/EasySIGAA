@@ -1,3 +1,8 @@
+.app-header {
+  background: #ffffff;
+  box-shadow: 0px 2px 8px #c5c5c5;
+}
+
 ul {
   list-style: none;
   padding: 0;
@@ -7,13 +12,50 @@ ul {
 
 a {
   text-decoration: none;
-  color: white;
+  color: rgba(0, 0, 0, 0.85);
+  height: 100%;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+}
+
+.app-nav-items {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  height: 100%;
+}
+
+.app-nav-items a {
+  height: 100%;
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-.active {
-  background: rgb(173, 152, 155);
+.app-nav-items-active {
+  border-bottom: 2px solid #1890ff;
+  color: #1890ff;
+}
+
+.disabled {
+  pointer-events: none;
+  display: block;
+  color: rgb(180, 180, 180);
+}
+
+.app-nav-user-options li {
+  height: 70%;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  
+  margin-left: 5px;
+}
+
+
+.app-nav-user-options-active {
+  color: #ffffff !important;
+  background: #1890ff;
 }
