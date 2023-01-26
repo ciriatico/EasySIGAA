@@ -12,7 +12,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
-
+import { MatCheckboxModule } from '@angular/material/checkbox'
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorada-list.component';
 import { NotificacoesComponent } from './notificacoes/notificacoes.component';
+import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NotificacoesComponent } from './notificacoes/notificacoes.component';
     SignupComponent,
     MonitoradaListComponent,
     NotificacoesComponent,
+    ConfiguracoesComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ import { NotificacoesComponent } from './notificacoes/notificacoes.component';
     MatSelectModule,
     HttpClientModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -1,0 +1,9 @@
+.item {
+    width: 40%;
+    margin-top: 5px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+}
