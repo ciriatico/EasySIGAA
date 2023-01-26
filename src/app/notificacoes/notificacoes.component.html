@@ -1,8 +1,11 @@
 <mat-spinner *ngIf="isLoading" />
 <mat-card *ngIf="!isLoading">
+
     <mat-card-content>
+        <button mat-raised-button color="primary" class="button" (click)="markAllAsRead()">Marcar todas como lidas</button>
         <mat-accordion multi="true">
-            <mat-expansion-panel *ngFor="let notificacao of notificacoes" hideToggle>
+            <mat-expansion-panel *ngFor="let notificacao of notificacoes" [ngClass]="{'unread': !notificacao.lida}"
+                (click)="markAsRead(notificacao)" hideToggle>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{

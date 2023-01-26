@@ -47,6 +47,19 @@ export class TurmasService {
     })
   }
 
+  marcarNotificacoes(usuarioId: string) {
+    this.http.put("http://localhost:3000/api/notificacoes/marcarlidas/" + usuarioId, {}).subscribe(res => {
+
+    })
+  }
+
+  marcarNotificacao(notificacaoId: string) {
+    this.http.put("http://localhost:3000/api/notificacoes/marcarlida/" + notificacaoId, {}).subscribe(res => {
+
+    })
+  }
+
+
   getTurmaUpdateListener() {
     return this.turmasUpdated.asObservable();
   }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { TurmasService } from '../turmas/turma.service';
 import { Subscription } from 'rxjs';
+import { Notificacao } from '../turmas/notificacao.model';
 
 @Component({
   selector: 'app-notificacoes',
@@ -48,6 +49,21 @@ export class NotificacoesComponent {
     return `${day}/${month}/${year} ${hour}:${minutes}`;
   }
 
+  markAsRead(notificacao: Notificacao) {
+    if (!notificacao.lida) {
+      notificacao.lida = true
+      this.turmasService.marcarNotificacao(notificacao._id)
+    }
+
+  }
+
+  markAllAsRead() {
+    this.turmasService.marcarNotificacoes(this.userId)
+    this.notificacoes?.forEach(notificacao => {
+      notificacao.lida = true;
+    });
+  }
+
   ngOnInit() {
     this.isLoading = true
 
@@ -65,5 +81,10 @@ export class NotificacoesComponent {
     })
 
     this.isLoading = false
+  }
+
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
+    this.notificacoesSub.unsubscribe();
   }
 }
