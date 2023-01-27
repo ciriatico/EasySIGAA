@@ -36,6 +36,17 @@ export class TurmasService {
       departamentos: number[];
     }>("http://localhost:3000/api/turmas/departamentos");
   }
+  
+  getHistoricoMudancas(usuarioId: string, turmaId: string) {
+    this.http.get<{
+      message: string;
+      notificacoes: Notificacao[];
+    }>("http://localhost:3000/api/turmas/historico/" + turmaId).subscribe((data) => {
+      this.notificacoes = data.notificacoes;
+      this.notificacoesUpdated.next({ notificacoes: [...this.notificacoes] });
+    })
+  }
+
 
   getNotificacoes(usuarioId: string) {
     this.http.get<{

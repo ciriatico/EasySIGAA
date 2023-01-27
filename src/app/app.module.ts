@@ -24,6 +24,9 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorada-list.component';
 import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
+import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
+var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
+
 
 @NgModule({
   declarations: [
@@ -35,6 +38,7 @@ import { ConfiguracoesComponent } from './configuracoes/configuracoes.component'
     MonitoradaListComponent,
     NotificacoesComponent,
     ConfiguracoesComponent,
+    CanvasJSChart,
   ],
   imports: [
     BrowserModule,

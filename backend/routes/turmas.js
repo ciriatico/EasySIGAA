@@ -236,4 +236,20 @@ router.get("/monitoradas", checkAuth, (req, res, next) => {
   }
 });
 
+router.get("/historico/:idTurma", (req, res, next) => {
+  Mudanca.find({ turmaId: req.params.idTurma }).then(
+    (data) => {
+      res.status(200).json({
+        message: "Historico retornado com sucesso",
+        mudancas: data,
+      });
+    },
+    (err) => {
+      res.json({
+        message: err,
+      });
+    }
+  );
+});
+
 module.exports = router;

@@ -1,4 +1,8 @@
-ul {
+.app-header {
+  box-shadow: 0px 2px 8px #6b6b6b;
+}
+.app-header ul {
+  height: 100%;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -6,14 +10,38 @@ ul {
 }
 
 a {
+  color: #ffffff;
   text-decoration: none;
-  color: white;
+  height: 100% !important;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
 }
 
-.spacer {
+.app-header .spacer {
   flex: 1 1 auto;
 }
 
-.active {
-  background: rgb(173, 152, 155);
+.app-header .app-nav-items-active,
+.app-header .app-nav-user-options-active {
+  border-bottom: 2px solid #ffffffd3;
+  background: #ffffff33;
+}
+
+.app-header .app-nav-items {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  height: 100%;
+}
+
+.app-header .disabled {
+  pointer-events: none;
+  display: block;
+  color: #8a8a8a;
+}
+
+.app-nav-user-options button {
+  height: 100%;
 }

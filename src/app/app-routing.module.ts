@@ -8,8 +8,9 @@ import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorad
 import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 import { TurmaListComponent } from './turmas/turma-list/turma-list.component';
 
+
 const routes: Routes = [
-  { path: '', component: TurmaListComponent },
+  { path: 'disciplinas', component: TurmaListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'monitor', component: MonitoradaListComponent },
