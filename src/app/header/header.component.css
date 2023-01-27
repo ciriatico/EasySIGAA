@@ -45,3 +45,18 @@ a {
 .app-nav-user-options button {
   height: 100%;
 }
+
+.notification-count {
+  width: 20px;
+  height: 20px;
+  top: -12px;
+  right: 35px;
+  background-color: red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 12px;
+  position: relative;
+}

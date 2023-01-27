@@ -1,33 +1,37 @@
-<mat-toolbar color="primary" class="app-header"><span><a routerLink="/">EasySIGAA</a></span><span class="spacer"></span>
-    <ul class="app-nav-items">
-      <li *ngIf="userIsAuthenticated">
-        <a mat-button routerLink="/disciplinas" color="white" routerLinkActive="app-nav-items-active">Disciplinas</a>
-      </li>
-      <li *ngIf="userIsAuthenticated">
-        <a mat-button routerLink="/monitor" routerLinkActive="app-nav-items-active">Monitor</a>
-      </li>
-      <li *ngIf="userIsAuthenticated" class="disabled">
-        <a mat-button routerLink="#" routerLinkActive="app-nav-items-active">Gerar grade</a>
-      </li>
-      <li *ngIf="userIsAuthenticated" class="disabled">
-        <a mat-button routerLink="#" routerLinkActive="app-nav-items-active">Projetos de extensão</a>
-      </li>
-    </ul>
-    <ul class="app-nav-user-options">
-      <li *ngIf="userIsAuthenticated">
-        <a mat-button routerLink="/notificacoes" routerLinkActive="app-nav-user-options-active"><mat-icon>notifications</mat-icon></a>
-      </li>
-      <li *ngIf="userIsAuthenticated">
-        <a mat-button routerLink="/configuracoes" routerLinkActive="app-nav-user-options-active"><mat-icon>settings</mat-icon></a>
-      </li>
-      <li *ngIf="!userIsAuthenticated">
-        <a mat-button routerLink="/login" routerLinkActive="app-nav-user-options-active">Login</a>
-      </li>
-      <li *ngIf="!userIsAuthenticated">
-        <a mat-button routerLink="/signup" routerLinkActive="app-nav-user-options-active">Sign-Up</a>
-      </li>
-      <li *ngIf="userIsAuthenticated">
-        <button mat-button (click)="onLogout()">Sair</button>
-      </li>
-    </ul>
+<mat-toolbar color="primary" class="app-header"><span><a routerLink="/"
+      (click)="reloadNotificacoes()">EasySIGAA</a></span><span class="spacer"></span>
+  <ul class="app-nav-items" (click)="reloadNotificacoes()">
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/disciplinas" color="white" routerLinkActive="app-nav-items-active">Disciplinas</a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/monitor" routerLinkActive="app-nav-items-active">Monitor</a>
+    </li>
+    <li *ngIf="userIsAuthenticated" class="disabled">
+      <a mat-button routerLink="#" routerLinkActive="app-nav-items-active">Gerar grade</a>
+    </li>
+    <li *ngIf="userIsAuthenticated" class="disabled">
+      <a mat-button routerLink="#" routerLinkActive="app-nav-items-active">Projetos de extensão</a>
+    </li>
+  </ul>
+  <ul class="app-nav-user-options">
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/notificacoes"
+        routerLinkActive="app-nav-user-options-active"><mat-icon>notifications</mat-icon><span
+          class="notification-count" *ngIf="qtdNotificacoes > 0">{{qtdNotificacoes}}</span></a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/configuracoes"
+        routerLinkActive="app-nav-user-options-active"><mat-icon>settings</mat-icon></a>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/login" routerLinkActive="app-nav-user-options-active">Login</a>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/signup" routerLinkActive="app-nav-user-options-active">Sign-Up</a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <button mat-button (click)="onLogout()">Sair</button>
+    </li>
+  </ul>
 </mat-toolbar>

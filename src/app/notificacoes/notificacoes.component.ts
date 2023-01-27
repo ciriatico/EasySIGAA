@@ -3,6 +3,7 @@ import { AuthService } from '../auth/auth.service';
 import { TurmasService } from '../turmas/turma.service';
 import { Subscription } from 'rxjs';
 import { Notificacao } from '../turmas/notificacao.model';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-notificacoes',
@@ -53,15 +54,23 @@ export class NotificacoesComponent {
     if (!notificacao.lida) {
       notificacao.lida = true
       this.turmasService.marcarNotificacao(notificacao._id)
+      this.turmasService.getQtdNotificacoes(this.userId)
     }
 
   }
 
   markAllAsRead() {
     this.turmasService.marcarNotificacoes(this.userId)
+    this.turmasService.getQtdNotificacoes(this.userId)
     this.notificacoes?.forEach(notificacao => {
       notificacao.lida = true;
     });
+  }
+
+  cleanNotifications() {
+    this.notificacoes = []
+    this.turmasService.deleteNotificacoes(this.userId)
+    this.turmasService.getQtdNotificacoes(this.userId)
   }
 
   ngOnInit() {

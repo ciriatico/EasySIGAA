@@ -17,8 +17,10 @@ export class TurmasService {
     turmas: Turma[];
     turmaCount: number;
   }>();
+  private qtdNotificacoes: number
   private monitoradasUpdated = new Subject<{ monitoradas: Monitorada[] }>();
   private notificacoesUpdated = new Subject<{ notificacoes: Notificacao[] }>();
+  private qtdNotificacoesUpdated = new Subject<{ qtdNotificacoes: number }>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -36,7 +38,7 @@ export class TurmasService {
       departamentos: number[];
     }>("http://localhost:3000/api/turmas/departamentos");
   }
-  
+
   getHistoricoMudancas(usuarioId: string, turmaId: string) {
     this.http.get<{
       message: string;
@@ -58,6 +60,16 @@ export class TurmasService {
     })
   }
 
+  getQtdNotificacoes(usuarioId: string) {
+    this.http.get<{
+      message: string;
+      qtdNotificacoes: number;
+    }>("http://localhost:3000/api/notificacoes/novas/" + usuarioId).subscribe((data) => {
+      this.qtdNotificacoes = data.qtdNotificacoes;
+      this.qtdNotificacoesUpdated.next({ qtdNotificacoes: this.qtdNotificacoes })
+    })
+  }
+
   marcarNotificacoes(usuarioId: string) {
     this.http.put("http://localhost:3000/api/notificacoes/marcarlidas/" + usuarioId, {}).subscribe(res => {
 
@@ -70,6 +82,9 @@ export class TurmasService {
     })
   }
 
+  getQtdNotificacaoUpdateListener() {
+    return this.qtdNotificacoesUpdated.asObservable();
+  }
 
   getTurmaUpdateListener() {
     return this.turmasUpdated.asObservable();
@@ -107,5 +122,9 @@ export class TurmasService {
     return this.http.delete(
       "http://localhost:3000/api/turmas/monitorar/" + turmaId
     );
+  }
+
+  deleteNotificacoes(usuarioId: string) {
+    this.http.delete("http://localhost:3000/api/notificacoes/" + usuarioId).subscribe(data => { })
   }
 }

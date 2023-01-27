@@ -3,6 +3,7 @@
 
     <mat-card-content>
         <button mat-raised-button color="primary" class="button" (click)="markAllAsRead()">Marcar todas como lidas</button>
+        <button mat-raised-button color="warn" class="button" (click)="cleanNotifications()">Limpar notificações</button>
         <mat-accordion multi="true">
             <mat-expansion-panel *ngFor="let notificacao of notificacoes" [ngClass]="{'unread': !notificacao.lida}"
                 (click)="markAsRead(notificacao)" hideToggle>

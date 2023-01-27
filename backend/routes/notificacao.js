@@ -25,6 +25,17 @@ router.get("/:usuarioId", checkAuth, (req, res, next) => {
     );
 });
 
+router.get("/novas/:usuarioId", checkAuth, (req, res, next) => {
+  Notificacao.count({ usuarioId: req.params.usuarioId, lida: false }).then(
+    (data) => {
+      res.status(200).json({
+        message: "Número de novas notificações retornado com sucesso.",
+        qtdNotificacoes: data,
+      });
+    }
+  );
+});
+
 router.put("/marcarlida/:notificacaoId", checkAuth, (req, res, next) => {
   Notificacao.updateOne(
     { lida: false, _id: req.params.notificacaoId },
@@ -55,6 +66,16 @@ router.put("/marcarlidas/:usuarioId", checkAuth, (req, res, next) => {
       }
     }
   );
+});
+
+router.delete("/:usuarioId", checkAuth, (req, res, next) => {
+  Notificacao.deleteMany({ usuarioId: req.params.usuarioId }, (err, result) => {
+    if (err) {
+      res.status(500).json({ message: err });
+    } else {
+      res.status(200).json({ message: "Notificações excluídas com sucesso" });
+    }
+  });
 });
 
 module.exports = router;
