@@ -1,5 +1,4 @@
 const express = require("express");
-const { routes } = require("../app");
 const checkAuth = require("../middleware/check-auth");
 const Usuario = require("../models/usuario");
 
@@ -29,11 +28,9 @@ router.put("/salvarConfiguracoes", checkAuth, (req, res, next) => {
       if (err) {
         res.status(500).json({ message: err });
       } else {
-        res
-          .status(200)
-          .json({
-            message: "Configurações do usuário atualizadas com sucesso",
-          });
+        res.status(200).json({
+          message: "Configurações do usuário atualizadas com sucesso",
+        });
       }
     }
   );

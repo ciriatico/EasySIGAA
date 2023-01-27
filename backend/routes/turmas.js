@@ -162,6 +162,7 @@ async function updateTurmas() {
       console.log(err);
     });
 }
+
 // Atualiza cada turma. Trava o servidor, deve ser executada em intervalo de horas
 setInterval(updateTurmas, 3600000);
 // Atualiza apenas turmas monitoradas. Pode rodar de 5 em 5 min, gera dados falsos

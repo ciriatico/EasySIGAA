@@ -1,7 +1,11 @@
 .unread {
-    border-left: 5px solid blue;
+  border-left: 5px solid blue;
 }
 
 .button {
-    margin: 16px;
+  margin: 16px;
+}
+
+mat-spinner {
+  margin: auto;
 }

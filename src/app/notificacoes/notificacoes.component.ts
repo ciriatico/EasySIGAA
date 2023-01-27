@@ -1,44 +1,47 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { TurmasService } from '../turmas/turma.service';
-import { Subscription } from 'rxjs';
-import { Notificacao } from '../turmas/notificacao.model';
-import { ThisReceiver } from '@angular/compiler';
+import { Component } from "@angular/core";
+import { AuthService } from "../auth/auth.service";
+import { TurmasService } from "../turmas/turma.service";
+import { Subscription } from "rxjs";
+import { Notificacao } from "../turmas/notificacao.model";
+import { ThisReceiver } from "@angular/compiler";
 
 @Component({
-  selector: 'app-notificacoes',
-  templateUrl: './notificacoes.component.html',
-  styleUrls: ['./notificacoes.component.css']
+  selector: "app-notificacoes",
+  templateUrl: "./notificacoes.component.html",
+  styleUrls: ["./notificacoes.component.css"],
 })
 export class NotificacoesComponent {
   notificacoes:
     | {
-      _id: string;
-      usuarioId: string;
-      mudancaId: {
-        dataCaptura: Date;
-        ocupadas: number;
-        turmaId: {
-          nomeDisciplina: string;
-          professor: string;
-          vagasOcupadas: number;
-          vagasTotal: number;
-        }
         _id: string;
-      }
-      dataDisparo: number;
-      lida: boolean;
-    }[]
-    | null
+        usuarioId: string;
+        mudancaId: {
+          dataCaptura: Date;
+          ocupadas: number;
+          turmaId: {
+            nomeDisciplina: string;
+            professor: string;
+            vagasOcupadas: number;
+            vagasTotal: number;
+          };
+          _id: string;
+        };
+        dataDisparo: number;
+        lida: boolean;
+      }[]
+    | null;
 
-  isLoading = false
+  isLoading = false;
   userIsAuthenticated = false;
   userId: string;
 
   private authStatusSub: Subscription;
   private notificacoesSub: Subscription;
 
-  constructor(private authService: AuthService, public turmasService: TurmasService) { }
+  constructor(
+    private authService: AuthService,
+    public turmasService: TurmasService
+  ) {}
 
   formatDate(dateString: Date) {
     let date = new Date(dateString);
@@ -52,44 +55,48 @@ export class NotificacoesComponent {
 
   markAsRead(notificacao: Notificacao) {
     if (!notificacao.lida) {
-      notificacao.lida = true
-      this.turmasService.marcarNotificacao(notificacao._id)
-      this.turmasService.getQtdNotificacoes(this.userId)
+      notificacao.lida = true;
+      this.turmasService.marcarNotificacao(notificacao._id);
+      this.turmasService.changeQtdNotificacoes(1);
     }
-
   }
 
   markAllAsRead() {
-    this.turmasService.marcarNotificacoes(this.userId)
-    this.turmasService.getQtdNotificacoes(this.userId)
-    this.notificacoes?.forEach(notificacao => {
+    this.turmasService.marcarNotificacoes();
+    this.turmasService.changeQtdNotificacoes(0);
+    this.notificacoes?.forEach((notificacao) => {
       notificacao.lida = true;
     });
   }
 
   cleanNotifications() {
-    this.notificacoes = []
-    this.turmasService.deleteNotificacoes(this.userId)
-    this.turmasService.getQtdNotificacoes(this.userId)
+    this.notificacoes = [];
+    this.turmasService.deleteNotificacoes();
+    this.turmasService.getQtdNotificacoes();
   }
 
   ngOnInit() {
-    this.isLoading = true
+    this.isLoading = true;
 
-    this.userId = this.authService.getUserId()
+    this.userId = this.authService.getUserId();
 
-    this.turmasService.getNotificacoes(this.userId)
-    this.notificacoesSub = this.turmasService.getNotificacaoUpdateListener().subscribe((data) => {
-      this.notificacoes = data.notificacoes.sort((a, b) => (a.dataDisparo < b.dataDisparo) ? 1 : -1);
-    })
+    this.turmasService.getNotificacoes();
+    this.notificacoesSub = this.turmasService
+      .getNotificacaoUpdateListener()
+      .subscribe((data) => {
+        this.notificacoes = data.notificacoes.sort((a, b) =>
+          a.dataDisparo < b.dataDisparo ? 1 : -1
+        );
+        this.isLoading = false;
+      });
 
-    this.userIsAuthenticated = this.authService.getIsAuth()
-    this.authStatusSub = this.authService.getAuthStatusListener().subscribe((isAuthenticated) => {
-      this.userIsAuthenticated = isAuthenticated
-      this.userId = this.authService.getUserId()
-    })
-
-    this.isLoading = false
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe((isAuthenticated) => {
+        this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
+      });
   }
 
   ngOnDestroy() {

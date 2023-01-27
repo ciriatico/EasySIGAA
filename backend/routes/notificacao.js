@@ -4,8 +4,8 @@ const Notificacao = require("../models/notificacao");
 
 const router = express.Router();
 
-router.get("/:usuarioId", checkAuth, (req, res, next) => {
-  Notificacao.find({ usuarioId: req.params.usuarioId })
+router.get("/", checkAuth, (req, res, next) => {
+  Notificacao.find({ usuarioId: req.userData.userId })
     .populate({
       path: "mudancaId",
       populate: { path: "turmaId", model: "Turma" },
@@ -25,8 +25,8 @@ router.get("/:usuarioId", checkAuth, (req, res, next) => {
     );
 });
 
-router.get("/novas/:usuarioId", checkAuth, (req, res, next) => {
-  Notificacao.count({ usuarioId: req.params.usuarioId, lida: false }).then(
+router.get("/novas", checkAuth, (req, res, next) => {
+  Notificacao.count({ usuarioId: req.userData.userId, lida: false }).then(
     (data) => {
       res.status(200).json({
         message: "Número de novas notificações retornado com sucesso.",
@@ -52,9 +52,9 @@ router.put("/marcarlida/:notificacaoId", checkAuth, (req, res, next) => {
   );
 });
 
-router.put("/marcarlidas/:usuarioId", checkAuth, (req, res, next) => {
+router.put("/marcarlidas", checkAuth, (req, res, next) => {
   Notificacao.updateMany(
-    { usuarioId: req.params.usuarioId, lida: false },
+    { usuarioId: req.userData.userId, lida: false },
     { $set: { lida: true } },
     (err, result) => {
       if (err) {
@@ -68,8 +68,8 @@ router.put("/marcarlidas/:usuarioId", checkAuth, (req, res, next) => {
   );
 });
 
-router.delete("/:usuarioId", checkAuth, (req, res, next) => {
-  Notificacao.deleteMany({ usuarioId: req.params.usuarioId }, (err, result) => {
+router.delete("/", checkAuth, (req, res, next) => {
+  Notificacao.deleteMany({ usuarioId: req.userData.userId }, (err, result) => {
     if (err) {
       res.status(500).json({ message: err });
     } else {

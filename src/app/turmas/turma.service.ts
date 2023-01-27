@@ -6,7 +6,7 @@ import { map } from "rxjs/operators";
 import { Turma } from "./turma.model";
 import { Router } from "@angular/router";
 import { Monitorada } from "./monitorada.model";
-import { Notificacao } from "./notificacao.model"
+import { Notificacao } from "./notificacao.model";
 
 @Injectable({ providedIn: "root" })
 export class TurmasService {
@@ -17,12 +17,15 @@ export class TurmasService {
     turmas: Turma[];
     turmaCount: number;
   }>();
-  private qtdNotificacoes: number
+  private qtdNotificacoes: number;
   private monitoradasUpdated = new Subject<{ monitoradas: Monitorada[] }>();
   private notificacoesUpdated = new Subject<{ notificacoes: Notificacao[] }>();
-  private qtdNotificacoesUpdated = new Subject<{ qtdNotificacoes: number }>();
+  private qtdNotificacoesUpdated = new Subject<{
+    qtdNotificacoes: number;
+    dec: boolean;
+  }>();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   getTurmas() {
     return this.http.get<{
@@ -39,47 +42,65 @@ export class TurmasService {
     }>("http://localhost:3000/api/turmas/departamentos");
   }
 
-  getHistoricoMudancas(usuarioId: string, turmaId: string) {
-    this.http.get<{
-      message: string;
-      notificacoes: Notificacao[];
-    }>("http://localhost:3000/api/turmas/historico/" + turmaId).subscribe((data) => {
-      this.notificacoes = data.notificacoes;
-      this.notificacoesUpdated.next({ notificacoes: [...this.notificacoes] });
-    })
+  getHistoricoMudancas(turmaId: string) {
+    this.http
+      .get<{
+        message: string;
+        notificacoes: Notificacao[];
+      }>("http://localhost:3000/api/turmas/historico/" + turmaId)
+      .subscribe((data) => {
+        this.notificacoes = data.notificacoes;
+        this.notificacoesUpdated.next({ notificacoes: [...this.notificacoes] });
+      });
   }
 
-
-  getNotificacoes(usuarioId: string) {
-    this.http.get<{
-      message: string;
-      notificacoes: Notificacao[];
-    }>("http://localhost:3000/api/notificacoes/" + usuarioId).subscribe((data) => {
-      this.notificacoes = data.notificacoes;
-      this.notificacoesUpdated.next({ notificacoes: [...this.notificacoes] });
-    })
+  getNotificacoes() {
+    this.http
+      .get<{
+        message: string;
+        notificacoes: Notificacao[];
+      }>("http://localhost:3000/api/notificacoes")
+      .subscribe((data) => {
+        this.notificacoes = data.notificacoes;
+        this.notificacoesUpdated.next({ notificacoes: [...this.notificacoes] });
+      });
   }
 
-  getQtdNotificacoes(usuarioId: string) {
-    this.http.get<{
-      message: string;
-      qtdNotificacoes: number;
-    }>("http://localhost:3000/api/notificacoes/novas/" + usuarioId).subscribe((data) => {
-      this.qtdNotificacoes = data.qtdNotificacoes;
-      this.qtdNotificacoesUpdated.next({ qtdNotificacoes: this.qtdNotificacoes })
-    })
+  changeQtdNotificacoes(value: number) {
+    this.qtdNotificacoesUpdated.next({
+      qtdNotificacoes: value,
+      dec: value === 1 ? true : false,
+    });
   }
 
-  marcarNotificacoes(usuarioId: string) {
-    this.http.put("http://localhost:3000/api/notificacoes/marcarlidas/" + usuarioId, {}).subscribe(res => {
+  getQtdNotificacoes() {
+    this.http
+      .get<{
+        message: string;
+        qtdNotificacoes: number;
+      }>("http://localhost:3000/api/notificacoes/novas")
+      .subscribe((data) => {
+        this.qtdNotificacoes = data.qtdNotificacoes;
+        this.qtdNotificacoesUpdated.next({
+          qtdNotificacoes: this.qtdNotificacoes,
+          dec: false,
+        });
+      });
+  }
 
-    })
+  marcarNotificacoes() {
+    this.http
+      .put("http://localhost:3000/api/notificacoes/marcarlidas", {})
+      .subscribe((res) => {});
   }
 
   marcarNotificacao(notificacaoId: string) {
-    this.http.put("http://localhost:3000/api/notificacoes/marcarlida/" + notificacaoId, {}).subscribe(res => {
-
-    })
+    this.http
+      .put(
+        "http://localhost:3000/api/notificacoes/marcarlida/" + notificacaoId,
+        {}
+      )
+      .subscribe((res) => {});
   }
 
   getQtdNotificacaoUpdateListener() {
@@ -124,7 +145,9 @@ export class TurmasService {
     );
   }
 
-  deleteNotificacoes(usuarioId: string) {
-    this.http.delete("http://localhost:3000/api/notificacoes/" + usuarioId).subscribe(data => { })
+  deleteNotificacoes() {
+    this.http
+      .delete("http://localhost:3000/api/notificacoes")
+      .subscribe((data) => {});
   }
 }
