@@ -1,6 +1,6 @@
-<mat-card>
+<mat-card class="config-form">
     <mat-card-header>
-        <mat-card-title>
+        <mat-card-title class="titulo">
             Preferências do usuário
         </mat-card-title>
     </mat-card-header>
@@ -14,11 +14,13 @@
             <mat-label>E-mail</mat-label>
             <input matInput [(ngModel)]="userEmail">
         </mat-form-field>
-        <mat-checkbox [(ngModel)]="ativarNotificacoes" class="item">Ativar notificações por email</mat-checkbox>
-        <mat-form-field class="item">
-            <mat-label>Máximo de notificações diárias</mat-label>
-            <input matInput [disabled]="!ativarNotificacoes" [(ngModel)]="maxNotificacoes">
-        </mat-form-field>
+        <div class="quantidade-email">
+            <mat-form-field class="item">
+                <mat-label>Máximo de notificações diárias</mat-label>
+                <input matInput [disabled]="!ativarNotificacoes" type="number" [(ngModel)]="maxNotificacoes">
+            </mat-form-field>
+            <mat-checkbox [(ngModel)]="ativarNotificacoes" color="primary" class="item quantidade-email-checkbox">Ativar notificações por email</mat-checkbox>
+        </div>
         <mat-divider />
     </mat-card-content>
     <mat-card-actions>

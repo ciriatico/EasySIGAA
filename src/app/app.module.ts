@@ -25,8 +25,9 @@ import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorad
 import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
 import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
-var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
+import { MatTableModule } from '@angular/material/table'  
 
+var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     HttpClientModule,
     MatListModule,
     MatIconModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
