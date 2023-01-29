@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 
 const turmasRoutes = require("./routes/turmas");
 const authRoutes = require("./routes/auth");
-const notificacaoRoutes = require("./routes/notificacao")
-const mudancaRoutes = require("./routes/mudancas")
-const usuarioRoutes = require("./routes/usuario")
+const notificacaoRoutes = require("./routes/notificacao");
+const mudancaRoutes = require("./routes/mudancas");
+const usuarioRoutes = require("./routes/usuario");
 
 const app = express();
 
@@ -43,7 +43,8 @@ app.use((req, res, next) => {
 
 app.use("/api/turmas", turmasRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/notificacoes", notificacaoRoutes)
-app.use("./api/mudancas", mudancaRoutes)
+app.use("/api/notificacoes", notificacaoRoutes);
+app.use("/api/mudancas", mudancaRoutes);
+app.use("/api/usuario", usuarioRoutes);
 
 module.exports = app;

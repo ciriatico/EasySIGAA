@@ -1,12 +1,11 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<h1 style="margin-top: 32px; font-weight: 500;">Monitor de disciplinas</h1>
+<h1 style="margin-top: 32px; font-weight: 500"></h1>
 <div class="pg" *ngIf="monitoradas && !isLoading">
   <div class="tabela" style="height: 100%">
     <table
       mat-table
       tabelaDisciplinas
       #tabelaDisciplinas
-
       [dataSource]="dataSource"
       *ngIf="monitoradas.length > 0"
     >
@@ -41,19 +40,13 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-      ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-    >
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
     </mat-paginator>
   </div>
 
-<div class="grafico">
+  <div class="grafico">
     <canvasjs-chart
       [options]="chartOptions"
       [styles]="{ width: '100%', height: '360px' }"

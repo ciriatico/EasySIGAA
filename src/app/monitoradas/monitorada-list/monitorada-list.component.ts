@@ -1,7 +1,13 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { lastValueFrom, Subscription } from "rxjs";
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource, MatTable } from '@angular/material/table';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource, MatTable } from "@angular/material/table";
 
 import { TurmasService } from "../../turmas/turma.service";
 import { MonitoradaService } from "../../monitoradas/monitorada-list/monitorada-list.service";
@@ -14,17 +20,16 @@ import { CanvasJS } from "src/assets/canvasjs.angular.component";
   templateUrl: "./monitorada-list.component.html",
   styleUrls: ["./monitorada-list.component.css"],
 })
-
 export class MonitoradaListComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['disciplina', 'vagas', 'acoes'];
+  displayedColumns: string[] = ["disciplina", "vagas", "acoes"];
   date = new Date();
   dps = [{ x: new Date(), y: 0 }];
   chart: any;
   showChart = false;
-  dataSource: MatTableDataSource<Turma>
+  dataSource: MatTableDataSource<Turma>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('tabelaDisciplinas') table: MatTable<any>;
+  @ViewChild("tabelaDisciplinas") table: MatTable<any>;
 
   historicoTurma:
     | {
@@ -57,48 +62,47 @@ export class MonitoradaListComponent implements OnInit, OnDestroy {
 
   chartOptions = {
     title: {
-      text: "Escolha uma turma para gerar o gráfico",
+      text: "Selecione alguma turma",
       fontFamily: "Roboto",
       fontStyle: "500",
-      
     },
-    subtitles:[
+    subtitles: [
       {
         text: "",
         fontFamily: "Roboto",
         fontStyle: "normal",
-      }
+      },
     ],
-    zoomEnabled:true,
+    zoomEnabled: true,
     axisX: {
-      valueFormatString: "DD/MM/YY  HH:mm",        // -> 26/01/23 20:50
+      valueFormatString: "DD/MM/YY  HH:mm", // -> 26/01/23 20:50
       // valueFormatString: "DD-MM",              // -> 26-01
       // valueFormatString: "hh:mm",              // -> 20:50
       // valueFormatString: "DD MMMM hh:mm",      // -> 26 January 09:50
       labelAngle: -50,
     },
-    axisY:{
+    axisY: {
       gridDashType: "dot",
       gridThickness: 1,
-      gridColor: "#3535358f"
+      gridColor: "#3535358f",
     },
     data: [
       {
         type: "area",
         color: "#5c68aa",
-        dataPoints: this.dps
+        dataPoints: this.dps,
       },
     ],
   };
 
-  async getMonitoradas(){
-    await this.turmasService.getTurmasMonitoradas(false)
+  async getMonitoradas() {
+    await this.turmasService.getTurmasMonitoradas(false);
   }
 
   async ngOnInit() {
     this.isLoading = true;
     this.turmasService.getTurmasMonitoradas(true);
-    await this.getMonitoradas().then(data => (data))
+    await this.getMonitoradas().then((data) => data);
 
     this.monitoradasSub = this.turmasService
       .getMonitoradaUpdateListener()
@@ -110,7 +114,7 @@ export class MonitoradaListComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource<Turma>(this.monitoradasCod);
         this.dataSource.paginator = this.paginator;
       });
-    
+
     this.isLoading = true;
     this.userId = this.authService.getUserId();
 
@@ -136,35 +140,32 @@ export class MonitoradaListComponent implements OnInit, OnDestroy {
   }
 
   async atualizaHistorico(turmaId: string) {
-    await this.monitoradaService
-    .getHistoricoMudancas(turmaId).then(
-      datas => {
-        this.historicoTurma = [];
-        datas!.mudancas.forEach((mudanca) => {
-          this.historicoTurma!.push({
-            data: mudanca.dataCaptura,
-            vagas: mudanca.ocupadas,
-          });
+    await this.monitoradaService.getHistoricoMudancas(turmaId).then((datas) => {
+      this.historicoTurma = [];
+      datas!.mudancas.forEach((mudanca) => {
+        this.historicoTurma!.push({
+          data: mudanca.dataCaptura,
+          vagas: mudanca.ocupadas,
         });
-      }
-    );
+      });
+    });
   }
 
   async updateChart(turmaId: string, disciplinNome: string) {
     this.showChart = true;
     this.dps = [];
-    this.historicoTurma = []
-    await this.atualizaHistorico(turmaId).then( abobrinha => {
+    this.historicoTurma = [];
+    await this.atualizaHistorico(turmaId).then((abobrinha) => {
       this.historicoTurma?.forEach((mudanca) => {
         this.dps.push({ x: new Date(mudanca.data), y: mudanca.vagas });
       });
 
-      if(this.historicoTurma!.length <= 0){
-        this.chartOptions.subtitles[0].text = "Nenhuma alteração registrada."
-      }else{
-        this.chartOptions.subtitles[0].text = ""
+      if (this.historicoTurma!.length <= 0) {
+        this.chartOptions.subtitles[0].text = "Nenhuma alteração registrada.";
+      } else {
+        this.chartOptions.subtitles[0].text = "";
       }
-  
+
       this.chartOptions.title.text = disciplinNome;
       this.chart.data[0].set("dataPoints", this.dps);
       this.chart.render();
@@ -173,21 +174,21 @@ export class MonitoradaListComponent implements OnInit, OnDestroy {
 
   getChartInstance(chart: object) {
     this.chart = chart;
-    this.chart.data[0].set("dataPoints", [])
+    this.chart.data[0].set("dataPoints", []);
     this.chart.render();
   }
 }
 
 export interface Turma {
-  codDepto: number,
-  codDisciplina: string
-  codTurma: string
-  horario: string
-  nomeDepto: string
-  nomeDisciplina: string
-  periodo: string
-  professor: string
-  vagasOcupadas: number,
-  vagasTotal: number,
-  _id: string
+  codDepto: number;
+  codDisciplina: string;
+  codTurma: string;
+  horario: string;
+  nomeDepto: string;
+  nomeDisciplina: string;
+  periodo: string;
+  professor: string;
+  vagasOcupadas: number;
+  vagasTotal: number;
+  _id: string;
 }
