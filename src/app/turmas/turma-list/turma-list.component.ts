@@ -148,4 +148,24 @@ export class TurmaListComponent implements OnInit, OnDestroy {
       this.monitoradasSub.unsubscribe();
     }
   }
+
+  isChecked(turmaId: string) {
+    if(this.monitoradasCod.indexOf(turmaId) == -1){
+      return false;
+    }
+    else if(this.monitoradasCod.indexOf(turmaId) > -1){
+      return true;
+    }
+    return false
+  }
+  
+  onChangeMonitorar(turmaId: string) {
+    if(this.monitoradasCod.indexOf(turmaId) == -1){
+      this.onMonitorar(turmaId);
+    }
+    else if(this.monitoradasCod.indexOf(turmaId) > -1){
+      this.onDelete(turmaId);
+    }
+   
+  }
 }

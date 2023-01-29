@@ -1,0 +1,86 @@
+.hero{
+    display: flex;
+    height: 100vh;
+}
+
+.hero-content{
+    margin-left: 50px;
+}
+
+.page-container{
+    background-color: rgb(249, 249, 249);
+    padding: 20px 60px;
+}
+.hero-title{
+    font-weight:600;
+    font-size: 64px;
+    font-family: 'DM Serif Display', serif;
+    line-height: 68px;
+    margin-top: 75px;
+    letter-spacing: 3px;
+    color: #2F2E41;
+}
+.hero-description{
+    font-size: medium;
+    font-weight: 200;
+    color:#2F2E41;
+}
+.cta-button {
+    padding: 18px 46px;
+    font-size: 18px;
+    background-color: #3f51b5;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 16px;
+}
+.cta-button-minor {
+    padding: 12px 36px;
+    font-size: 14px;
+    background-color: #3f51b5;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+.page-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(229, 229, 244);
+    padding: 28px 0;
+}
+
+h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 600;
+    font-size: 40px;
+    color:#2F2E41;
+}
+
+.usage{
+    margin-top: 24px;
+    padding: 0 160px;
+}
+.usage-sec{
+    display: flex;
+    
+    align-items: center;
+}
+
+.usage-instruction{
+    padding: 46px 120px;
+    text-align:justify;
+}
+
+h3{
+    font-weight: 600;
+    font-size: x-large;
+    color:#2F2E41;
+}
+.usage-description{
+    font-size: medium;
+    color:#2F2E41;
+
+}

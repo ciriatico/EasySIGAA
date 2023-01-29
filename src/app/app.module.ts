@@ -24,6 +24,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorada-list.component';
 import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
+import { HomeComponent } from './home/home.component';
 import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
 import { MatTableModule } from '@angular/material/table'  
 
@@ -40,6 +41,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     NotificacoesComponent,
     ConfiguracoesComponent,
     CanvasJSChart,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

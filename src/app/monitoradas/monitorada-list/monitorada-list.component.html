@@ -1,3 +1,4 @@
+<div class="pages">
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <h1 style="margin-top: 32px; font-weight: 500"></h1>
 <div class="pg" *ngIf="monitoradas && !isLoading">
@@ -53,4 +54,5 @@
       (chartInstance)="getChartInstance($event)"
     ></canvasjs-chart>
   </div>
+</div>
 </div>

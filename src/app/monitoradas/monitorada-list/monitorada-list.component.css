@@ -77,3 +77,8 @@ th{
 .grafico{
     width: 37.5vw;
 }
+
+.pages {
+  width: 75%;
+  margin: 1rem auto;
+}
