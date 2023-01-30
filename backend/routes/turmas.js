@@ -29,7 +29,125 @@ async function sendEmail(data) {
     from: "admin@easysigaa.com.br",
     to: data.email,
     subject: `EasySIGAA - Vaga em ${data.nomeDisciplina} - turma ${data.codTurma}`,
-    html: `Olá, ${data.nome} de e-mail ${data.email}, foram liberadas ${data.variacao} vagas na disciplina de ${data.nomeDisciplina}, turma ${data.codTurma}.`,
+    hetml: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <meta name="x-apple-disable-message-reformatting">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="telephone=no" name="format-detection">
+        <title></title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+        <!--[if (mso 16)]>
+        <style type="text/css">
+        a {text-decoration: none;}
+        </style>
+        <![endif]-->
+        <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]-->
+        <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+        <o:AllowPNG></o:AllowPNG>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
+    </head>
+    
+    <body>
+        <div class="es-wrapper-color">
+            <!--[if gte mso 9]>
+          <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+            <v:fill type="tile" color="#eff2f7"></v:fill>
+          </v:background>
+        <![endif]-->
+            <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td class="esd-email-paddings" valign="top">
+                            <table class="es-header esd-header-popover" cellspacing="0" cellpadding="0" align="center">
+                                <tbody>
+                                    <tr>
+                                        <td class="esd-stripe" align="center" bgcolor="transparent" style="background-color: transparent;">
+                                            <table class="es-header-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#0c66ff" align="center" style="background-color: #3f51b5;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="esd-structure es-p20t es-p20b es-p15r es-p15l" align="left">
+                                                            <table cellspacing="0" cellpadding="0" width="100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="es-m-p0r esd-container-frame" width="570" valign="top" align="center">
+                                                                            <table width="100%" cellspacing="0" cellpadding="0">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td align="center" class="esd-block-image es-m-txt-c" style="font-size: 0px; padding: 20px 20px;"><a target="_blank" href="https://viewstripo.email/"><img src="easysigaa\src\assets\LogoWhiteWord.svg" alt style="display: block;" width="250"></a></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="es-content" cellspacing="0" cellpadding="0" align="center">
+                                <tbody>
+                                    <tr>
+                                        <td class="esd-stripe" align="center">
+                                            <table class="es-content-body" width="600" cellspacing="0" cellpadding="0" bgcolor="#fefefe" align="center">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="esd-structure es-p40t es-p40b es-p15r es-p15l" align="left">
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td width="570" class="esd-container-frame" align="center" valign="top">
+                                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td align="center" class="esd-block-text">
+                                                                                            <h1 style="font-family: 'DM Serif Display', serif; color: #2F2E41;">Olá, ${data.nome}!<br> Há novas vagas para você!</h1>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td align="center" class="esd-block-text es-p10t">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="https://viewstripo.email/" class="es-button" target="_blank">Ver turma monitorada</a></span></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+    
+    </html>`
   };
 
   if (fake) {
