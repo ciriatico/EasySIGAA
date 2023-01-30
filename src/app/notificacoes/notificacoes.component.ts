@@ -4,6 +4,7 @@ import { TurmasService } from "../turmas/turma.service";
 import { Subscription } from "rxjs";
 import { Notificacao } from "../turmas/notificacao.model";
 import { ThisReceiver } from "@angular/compiler";
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: "app-notificacoes",
@@ -13,23 +14,46 @@ import { ThisReceiver } from "@angular/compiler";
 export class NotificacoesComponent {
   notificacoes:
     | {
-        _id: string;
-        usuarioId: string;
-        mudancaId: {
-          dataCaptura: Date;
-          ocupadas: number;
-          turmaId: {
-            nomeDisciplina: string;
-            professor: string;
-            vagasOcupadas: number;
-            vagasTotal: number;
-          };
-          _id: string;
+      _id: string;
+      usuarioId: string;
+      mudancaId: {
+        dataCaptura: Date;
+        ocupadas: number;
+        turmaId: {
+          nomeDisciplina: string;
+          professor: string;
+          vagasOcupadas: number;
+          vagasTotal: number;
         };
-        dataDisparo: number;
-        lida: boolean;
-      }[]
-    | null;
+        _id: string;
+      };
+      dataDisparo: number;
+      lida: boolean;
+    }[] = []
+
+  totalNotificacoes = 0
+  notificacoesPerPage = 10
+  currentPage = 1
+  pageSizeOptions = [10]
+
+  paginatedNotificacoes:
+    | {
+      _id: string;
+      usuarioId: string;
+      mudancaId: {
+        dataCaptura: Date;
+        ocupadas: number;
+        turmaId: {
+          nomeDisciplina: string;
+          professor: string;
+          vagasOcupadas: number;
+          vagasTotal: number;
+        };
+        _id: string;
+      };
+      dataDisparo: number;
+      lida: boolean;
+    }[] = []
 
   isLoading = false;
   userIsAuthenticated = false;
@@ -41,7 +65,7 @@ export class NotificacoesComponent {
   constructor(
     private authService: AuthService,
     public turmasService: TurmasService
-  ) {}
+  ) { }
 
   formatDate(dateString: Date) {
     let date = new Date(dateString);
@@ -56,6 +80,8 @@ export class NotificacoesComponent {
   markAsRead(notificacao: Notificacao) {
     if (!notificacao.lida) {
       notificacao.lida = true;
+      let rawIndex = this.paginatedNotificacoes.indexOf(notificacao) + (this.currentPage * this.notificacoesPerPage)
+      this.notificacoes[rawIndex].lida = true
       this.turmasService.marcarNotificacao(notificacao._id);
       this.turmasService.changeQtdNotificacoes(1);
     }
@@ -75,6 +101,17 @@ export class NotificacoesComponent {
     this.turmasService.getQtdNotificacoes();
   }
 
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.notificacoesPerPage = pageData.pageSize;
+    this.currentPage = pageData.pageIndex
+    this.paginatedNotificacoes = this.notificacoes.slice(
+      pageData.pageIndex * pageData.pageSize,
+      (pageData.pageIndex + 1) * pageData.pageSize
+    );
+    this.isLoading = false;
+  }
+
   ngOnInit() {
     this.isLoading = true;
 
@@ -87,6 +124,12 @@ export class NotificacoesComponent {
         this.notificacoes = data.notificacoes.sort((a, b) =>
           a.dataDisparo < b.dataDisparo ? 1 : -1
         );
+        this.totalNotificacoes = this.notificacoes.length
+        this.onChangedPage({
+          pageIndex: 0,
+          pageSize: this.notificacoesPerPage,
+          length: this.totalNotificacoes
+        })
         this.isLoading = false;
       });
 
