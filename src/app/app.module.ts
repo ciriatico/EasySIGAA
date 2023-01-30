@@ -24,6 +24,9 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorada-list.component';
 import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
+import { HomeComponent } from './home/home.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
 import { MatTableModule } from '@angular/material/table'  
 
@@ -40,6 +43,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     NotificacoesComponent,
     ConfiguracoesComponent,
     CanvasJSChart,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,9 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     MatListModule,
     MatIconModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

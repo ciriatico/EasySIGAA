@@ -1,76 +1,93 @@
-<mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-card *ngIf="!isLoading">
-  <mat-card-header>
-    <mat-card-title> Filtros </mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-form-field>
-      <mat-label>Departamento</mat-label>
-      <mat-select [(ngModel)]="filtroDepartamento">
-        <mat-option value="">Selecione um departamento</mat-option>
-        <mat-option
-          *ngFor="let departamento of departamentos"
-          [value]="departamento"
-          >{{ departamento }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Nome do Professor</mat-label>
-      <input matInput type="text" [(ngModel)]="filtroProfessor" />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Nome da disciplina</mat-label>
-      <input matInput type="text" [(ngModel)]="filtroNome" /> </mat-form-field
-    ><br />
-    <button mat-raised-button color="primary" (click)="onChangeFilter()">
-      Filtrar
-    </button>
-  </mat-card-content>
-</mat-card>
-
-<mat-accordion multi="true" *ngIf="turmas.length > 0 && !isLoading">
-  <mat-expansion-panel *ngFor="let turma of paginatedTurmas">
-    <mat-expansion-panel-header>{{
-      turma.nomeDisciplina
-    }}</mat-expansion-panel-header>
-    <p>{{ turma.professor }}</p>
-    <mat-action-row *ngIf="userIsAuthenticated">
-      <button
-        *ngIf="monitoradasCod.indexOf(turma._id) == -1"
-        mat-button
-        color="primary"
-        (click)="onMonitorar(turma._id)"
-      >
-        MONITORAR
+<div class="pages">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card *ngIf="!isLoading">
+    <mat-card-header>
+      <mat-card-title> Filtros </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Departamento</mat-label>
+        <mat-select [(ngModel)]="filtroDepartamento">
+          <mat-option value="">Selecione um departamento</mat-option>
+          <mat-option
+            *ngFor="let departamento of departamentos"
+            [value]="departamento"
+            >{{ departamento }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nome do Professor</mat-label>
+        <input matInput type="text" [(ngModel)]="filtroProfessor" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nome da disciplina</mat-label>
+        <input matInput type="text" [(ngModel)]="filtroNome" /> </mat-form-field
+      ><br />
+      <button mat-raised-button color="primary" (click)="onChangeFilter()">
+        Filtrar
       </button>
-      <button
-        *ngIf="monitoradasCod.indexOf(turma._id) > -1"
-        mat-button
-        color="warn"
-        (click)="onDelete(turma._id)"
-      >
-        PARAR
-      </button>
-    </mat-action-row>
-  </mat-expansion-panel>
-</mat-accordion>
-<mat-paginator
-  *ngIf="turmas.length > 0"
-  [length]="totalTurmas"
-  [pageSize]="turmasPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
-></mat-paginator>
-<!--
-<mat-paginator
-  *ngIf="turmas.length > 0"
-  [length]="totalTurmas"
-  [pageSize]="turmasPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangedPage($event)"
-></mat-paginator>
--->
-<p class="info-text mat-body-1" *ngIf="turmas.length <= 0 && !isLoading">
-  Sem turmas adicionadas
-</p>
+    </mat-card-content>
+  </mat-card>
+   
+  <table mat-table [dataSource]="paginatedTurmas" >
+  
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="disciplina">
+      <th mat-header-cell *matHeaderCellDef > Disciplina </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="disciplina">
+          {{element.codDisciplina}} {{element.nomeDisciplina.charAt(0) + element.nomeDisciplina.slice(1).toLowerCase()}}
+        </div>
+        <div class="disciplina-conteudo">
+          Turma {{element.codTurma}} - {{element.professor}} {{element.horario}}
+        </div>
+      </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="vagasOcupadas">
+      <th mat-header-cell *matHeaderCellDef class="table-header"> Vagas Ocupadas </th>
+      <td mat-cell *matCellDef="let element" class="table-header"> {{element.vagasOcupadas}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="vagasTotal">
+      <th mat-header-cell *matHeaderCellDef class="table-header"> Vagas Total </th>
+      <td mat-cell *matCellDef="let element" class="table-header"> {{element.vagasTotal}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="monitorar" >
+      <th mat-header-cell *matHeaderCellDef class="table-header"> Monitorar </th>
+      <td mat-cell *matCellDef="let turma" class="table-header">
+        <mat-slide-toggle 
+          [disabled]="userIsAuthenticated ? 'false' : 'true'"
+          [matTooltip]="userIsAuthenticated ? 'Monitorar vagas da disciplina' : 'Faça o login para monitorar vagas da disciplina' "
+          (change)="onChangeMonitorar(turma._id)"
+          [checked]="monitoradasCod.indexOf(turma._id) == -1 ? 'false' : true"
+          color="primary"
+        ></mat-slide-toggle>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  
+  
+  <mat-paginator
+    *ngIf="turmas.length > 0"
+    [length]="totalTurmas"
+    [pageSize]="turmasPerPage"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onChangedPage($event)"
+  ></mat-paginator>
+  <p class="info-text mat-body-1" *ngIf="turmas.length <= 0 && !isLoading">
+    Sem turmas adicionadas
+  </p>
+  </div>

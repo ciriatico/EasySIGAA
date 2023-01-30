@@ -35,7 +35,7 @@ export class TurmaListComponent implements OnInit, OnDestroy {
   paginatedTurmas: Turma[];
 
   filteredTurmas: Turma[] = [];
-
+  displayedColumns=['disciplina', 'vagasOcupadas', 'vagasTotal', 'monitorar']
   constructor(
     public turmasService: TurmasService,
     private authService: AuthService
@@ -147,5 +147,25 @@ export class TurmaListComponent implements OnInit, OnDestroy {
     if (this.userIsAuthenticated) {
       this.monitoradasSub.unsubscribe();
     }
+  }
+
+  isChecked(turmaId: string) {
+    if(this.monitoradasCod.indexOf(turmaId) == -1){
+      return false;
+    }
+    else if(this.monitoradasCod.indexOf(turmaId) > -1){
+      return true;
+    }
+    return false
+  }
+  
+  onChangeMonitorar(turmaId: string) {
+    if(this.monitoradasCod.indexOf(turmaId) == -1){
+      this.onMonitorar(turmaId);
+    }
+    else if(this.monitoradasCod.indexOf(turmaId) > -1){
+      this.onDelete(turmaId);
+    }
+   
   }
 }

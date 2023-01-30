@@ -7,6 +7,7 @@ import { ConfiguracoesComponent } from './configuracoes/configuracoes.component'
 import { MonitoradaListComponent } from './monitoradas/monitorada-list/monitorada-list.component';
 import { NotificacoesComponent } from './notificacoes/notificacoes.component';
 import { TurmaListComponent } from './turmas/turma-list/turma-list.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'monitor', component: MonitoradaListComponent },
   { path: 'notificacoes', component: NotificacoesComponent },
-  { path: 'configuracoes', component: ConfiguracoesComponent }
+  { path: 'configuracoes', component: ConfiguracoesComponent },
+  { path: '', pathMatch: 'full', component: HomeComponent }
 ];
 
 @NgModule({

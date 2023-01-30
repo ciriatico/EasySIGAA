@@ -16,6 +16,8 @@ a {
   height: 100% !important;
   border-radius: 0;
   border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
 }
 
 .app-header .spacer {
@@ -62,3 +64,4 @@ a {
   position: absolute;
   z-index: 1;
 }
+

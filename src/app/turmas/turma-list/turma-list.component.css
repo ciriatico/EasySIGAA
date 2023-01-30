@@ -22,3 +22,22 @@ mat-form-field {
 mat-card {
   margin-bottom: 1rem;
 }
+
+.disciplina {
+  font-weight: 500;
+  margin-top: 14px;
+}
+
+.disciplina-conteudo {
+  margin: 7px 0;
+  color: #8C8C8C;
+}
+
+.table-header{
+  text-align: center;
+}
+
+.pages {
+  width: 75%;
+  margin: 1rem auto;
+}
