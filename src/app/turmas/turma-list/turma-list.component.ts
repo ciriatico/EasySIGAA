@@ -35,7 +35,7 @@ export class TurmaListComponent implements OnInit, OnDestroy {
   paginatedTurmas: Turma[];
 
   filteredTurmas: Turma[] = [];
-
+  displayedColumns=['disciplina', 'vagasOcupadas', 'vagasTotal', 'monitorar']
   constructor(
     public turmasService: TurmasService,
     private authService: AuthService
