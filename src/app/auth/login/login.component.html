@@ -1,39 +1,44 @@
 <div class="pages">
-<mat-spinner *ngIf="isLoading"></mat-spinner>
-<form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
-  <mat-card>
-    <mat-form-field>
-      <input
-        matInput
-        name="email"
-        ngModel
-        type="email"
-        placeholder="E-mail"
-        #emailInput="ngModel"
-        required
-        email
-      />
-      <mat-error *ngIf="emailInput.invalid"
-        >Please, enter a valid e-mail.</mat-error
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+    <mat-card>
+      <mat-form-field>
+        <input
+          matInput
+          name="email"
+          ngModel
+          type="email"
+          placeholder="E-mail"
+          #emailInput="ngModel"
+          required
+          email
+        />
+        <mat-error *ngIf="emailInput.invalid"
+          >Insira um e-mail válido.</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          name="password"
+          placeholder="Senha"
+          ngModel
+          #passwordInput="ngModel"
+          required
+        />
+        <mat-error *ngIf="passwordInput.invalid"
+          >Insira uma senha válida.</mat-error
+        >
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        *ngIf="!isLoading"
       >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        type="password"
-        matInput
-        name="password"
-        placeholder="Password"
-        ngModel
-        #passwordInput="ngModel"
-        required
-      />
-      <mat-error *ngIf="passwordInput.invalid"
-        >Please, enter a valid password.</mat-error
-      >
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">
-      Login
-    </button>
-  </mat-card>
-</form>
+        Entrar
+      </button>
+    </mat-card>
+  </form>
 </div>

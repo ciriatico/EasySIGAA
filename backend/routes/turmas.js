@@ -15,8 +15,8 @@ const router = express.Router();
 
 const mailgunAuth = {
   auth: {
-    api_key: "",
-    domain: "",
+    api_key: "c82519250bdbd5297e4c08c3c1acb8be-f7d687c0-21e869fe",
+    domain: "sandboxe6b863f748334295994842e0aea454b5.mailgun.org",
   },
 };
 

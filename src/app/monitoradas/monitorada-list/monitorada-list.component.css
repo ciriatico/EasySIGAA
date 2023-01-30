@@ -1,10 +1,14 @@
+mat-spinner {
+  margin: auto;
+}
+
 table {
   width: 60%;
   max-width: 100%;
   margin-bottom: 5px;
 }
 
-.tabela{
+.tabela {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -16,17 +20,17 @@ table {
 }
 
 .mat-column-disciplina .turma {
-    font-weight: bold;
-    font-size: 18px;
-    padding-bottom: 5px;
-    flex: 0 0 50%;
+  font-weight: bold;
+  font-size: 18px;
+  padding-bottom: 5px;
+  flex: 0 0 50%;
 }
 
 .mat-column-vagas {
   font-style: italic;
 }
 
-.mat-column-acoes  {
+.mat-column-acoes {
   text-align: center;
 }
 
@@ -43,39 +47,38 @@ table {
   font-weight: bold;
 }
 
-.mat-icon{
-    transform: scale(1.2);
+.mat-icon {
+  transform: scale(1.2);
 }
 
-tr{
-    height: 70px !important;
-    max-height: 70px !important;
-    overflow: hidden;
-    line-break: unset;
-    width: 100%;
-    white-space: nowrap;
-    display: table-row;
-    overflow: hidden;
+tr {
+  height: 70px !important;
+  max-height: 70px !important;
+  overflow: hidden;
+  line-break: unset;
+  width: 100%;
+  white-space: nowrap;
+  display: table-row;
+  overflow: hidden;
 }
 
-th{
-    font-style: normal !important;
-    font-size: 16px;
-    max-height: 70px !important;
-
+th {
+  font-style: normal !important;
+  font-size: 16px;
+  max-height: 70px !important;
 }
 
-.pg{
-    display: grid;
-    grid-template-columns: 50fr 50fr;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 500px;
+.pg {
+  display: grid;
+  grid-template-columns: 50fr 50fr;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 500px;
 }
 
-.grafico{
-    width: 37.5vw;
+.grafico {
+  width: 37.5vw;
 }
 
 .pages {
