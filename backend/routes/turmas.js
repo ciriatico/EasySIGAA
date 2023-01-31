@@ -120,11 +120,12 @@ async function sendEmail(data) {
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="center" class="esd-block-text es-p10t">
-                                                                                        </td>
-                                                                                    </tr>
+                                                                                    <td align="center" class="esd-block-text es-p10t">
+                                                                                        <p style="font-family: 'Roboto', sans-serif;">A disciplina ${data.nomeDisciplina} liberou ${data.variacao} vaga(s) na turma aaaa.<br> Não perca essa chance de conseguir se matricular!</p><br>
+                                                                                    </td>
+                                                                                </tr>
                                                                                     <tr>
-                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="https://viewstripo.email/" class="es-button" target="_blank">Ver turma monitorada</a></span></td>
+                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="http://localhost:4200/" class="es-button" target="_blank">Ver turma monitorada</a></span></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
