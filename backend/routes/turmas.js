@@ -182,7 +182,7 @@ async function sendNotifications(mudanca) {
     })
     .then((monitoradas) => {
       monitoradas.forEach((monitorada) => {
-        if (monitorada.usuarioId.receberNot) {
+        if (!monitorada.usuarioId.receberNot) {
           sendEmail({
             usuarioId: monitorada.usuarioId._id,
             mudancaId: mudanca.mudancaId,
