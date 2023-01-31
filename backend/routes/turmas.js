@@ -84,7 +84,7 @@ async function sendEmail(data) {
                                                                             <table width="100%" cellspacing="0" cellpadding="0">
                                                                                 <tbody>
                                                                                     <tr>
-                                                                                        <td align="center" class="esd-block-image es-m-txt-c" style="font-size: 0px; padding: 20px 20px;"><a target="_blank" href="https://viewstripo.email/"><img src="easysigaa\src\assets\LogoWhiteWord.svg" alt style="display: block;" width="250"></a></td>
+                                                                                        <td align="center" class="esd-block-image es-m-txt-c" style="font-size: 0px; padding: 20px 20px;"><a target="_blank" href="http://localhost:4200/"><img src="../../src/assets/LogoWhiteWord.svg" alt style="display: block;" width="250"></a></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
