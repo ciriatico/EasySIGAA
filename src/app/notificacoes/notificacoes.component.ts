@@ -93,10 +93,14 @@ export class NotificacoesComponent {
     this.notificacoes?.forEach((notificacao) => {
       notificacao.lida = true;
     });
+    this.paginatedNotificacoes?.forEach((notificacao) => {
+      notificacao.lida = true;
+    })
   }
 
   cleanNotifications() {
     this.notificacoes = [];
+    this.paginatedNotificacoes = [];
     this.turmasService.deleteNotificacoes();
     this.turmasService.getQtdNotificacoes();
   }
