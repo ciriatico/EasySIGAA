@@ -38,8 +38,11 @@ Easysigaa é um sistema que auxilia os alunos da Universidade de Brasília a rea
 5. Execute o projeto
 
 > ng serve
+> 
 > node .\server.js -w
+> 
 > cd fastapi 
+> 
 > uvicorn main:app
 
 A aplicação estará disponível em `http://localhost:4200/`.
