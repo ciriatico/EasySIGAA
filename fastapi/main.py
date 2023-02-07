@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+import sigaa_scraping
 
 from pydantic import BaseModel
 from typing import List
@@ -27,10 +28,13 @@ def df_to_json(df):
 
 @app.get("/oferta")
 def get_oferta(ano: int = 2022, semestre: int = 2, fake: bool = True):
-	if fake:
-		data = pd.read_csv("./data/data_db.csv")
-		data_json = df_to_json(data)
-		return JSONResponse(content=data_json)
+	if not fake:
+		sigaa_scraping.scrape_sigaa_oferta()
+
+	data = pd.read_csv("./data/data_db.csv")
+	data_json = df_to_json(data)
+
+	return JSONResponse(content=data_json)
 
 @app.post("/vagas")
 def post_compara(data: ListaVagas, ano: int = 2022, semestre: int = 2, fake: bool = True, prop: float = 0.5):
