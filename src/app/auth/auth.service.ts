@@ -19,12 +19,7 @@ export class AuthService {
 
   createUser(nome: string, email: string, senha: string) {
     const authData: any = { nome: nome, email: email, senha: senha };
-    this.http
-      .post("http://localhost:3000/api/auth/signup", authData)
-      .subscribe((response) => {
-        console.log(response);
-        this.router.navigate(["/"]);
-      });
+    return this.http.post("http://localhost:3000/api/auth/signup", authData);
   }
 
   private setAuthTimer(duration: number) {
@@ -121,6 +116,15 @@ export class AuthService {
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
     }
+  }
+
+  deleteUser() {
+    this.http
+      .delete("http://localhost:3000/api/auth/delete")
+      .subscribe((response) => {
+        console.log(response);
+        this.router.navigate(["/"]);
+      });
   }
 
   getUserId() {

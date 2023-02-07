@@ -1,6 +1,8 @@
 const express = require("express");
 const checkAuth = require("../middleware/check-auth");
 const Usuario = require("../models/usuario");
+const Monitora = require("../models/monitora");
+const Notificacao = require("../models/notificacao");
 
 const router = express.Router();
 
@@ -34,6 +36,28 @@ router.put("/salvarConfiguracoes", checkAuth, (req, res, next) => {
       }
     }
   );
+});
+
+router.delete("", checkAuth, (req, res, next) => {
+  Notificacao.deleteMany({ usuarioId: req.userData.userId }, (err, result) => {
+    if (err) {
+      res.status(500).json({ message: err });
+    } else {
+      Monitora.deleteMany({ usuarioId: req.userData.userId }, (err, result) => {
+        if (err) {
+          res.status(500).json({ message: err });
+        } else {
+          Usuario.deleteOne({ _id: req.userData.userId }, (err, result) => {
+            if (err) {
+              res.status(500).json({ message: err });
+            } else {
+              res.status(204).json({ message: "Usuário deletado com sucesso" });
+            }
+          });
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;

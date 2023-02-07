@@ -21,7 +21,7 @@ import { CanvasJS } from "src/assets/canvasjs.angular.component";
   styleUrls: ["./monitorada-list.component.css"],
 })
 export class MonitoradaListComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ["disciplina", "vagas", "acoes"];
+  displayedColumns: string[] = ["disciplina", "turma", "vagas", "acoes"];
   date = new Date();
   dps = [{ x: new Date(), y: 0 }];
   chart: any;

@@ -30,14 +30,18 @@ mat-card {
 
 .disciplina-conteudo {
   margin: 7px 0;
-  color: #8C8C8C;
+  color: #8c8c8c;
 }
 
-.table-header{
+.table-header {
   text-align: center;
 }
 
 .pages {
   width: 75%;
   margin: 1rem auto;
+}
+
+.depto {
+  width: 45%;
 }

@@ -26,4 +26,8 @@ export class ConfiguracoesService {
       { receberNot: receberNot, maxNot: maxNot, nome: name, email: email }
     );
   }
+
+  deleteUser() {
+    return this.http.delete("http://localhost:3000/api/usuario");
+  }
 }

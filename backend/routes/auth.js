@@ -18,7 +18,10 @@ router.post("/signup", (req, res, next) => {
         maxNot: req.body.maxNot,
       });
       usuario.save().then((result) => {
-        res.status(201).json({ message: "Usuário criado.", result: result });
+        res.status(201).json({
+          message: "Usuário criado.",
+          result: result,
+        });
       });
     })
     .catch((err) => {

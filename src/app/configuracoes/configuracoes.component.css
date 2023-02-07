@@ -1,57 +1,56 @@
 .item,
-.quantidade-email{
-    width: 40%;
-    margin-top: 5px;
+.quantidade-email {
+  width: 40%;
+  margin-top: 5px;
 }
 
-.mat-mdc-card-header{
-    margin-bottom: 20px !important;
+.mat-mdc-card-header {
+  margin-bottom: 20px !important;
 }
 
-.mat-mdc-card-header .titulo{
-    font-weight: 500;
-    font-size: 25px;
+.mat-mdc-card-header .titulo {
+  font-weight: 500;
+  font-size: 25px;
 }
 
-
-.mat-card-header{
-    display: flex;
-    padding: 16px 16px 0;
+.mat-card-header {
+  display: flex;
+  padding: 16px 16px 0;
 }
 
 .card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 
 .config-form {
-    align-items: center !important;
-    display: flex !important;
-    box-shadow: 0 0 ;
+  align-items: center !important;
+  display: flex !important;
+  box-shadow: 0 0;
 }
 
 .config-form button {
-    width: 200px;
+  width: 200px;
 }
 
-.quantidade-email{
-    display: grid;
-    grid-template-columns: 60fr 40fr;
-    align-items: center;
-    justify-content: center;
+.quantidade-email {
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  align-items: center;
+  justify-content: center;
 }
 
-.quantidade-email .item{
-    width: 100%;
+.quantidade-email .item {
+  width: 100%;
 }
 
-.quantidade-email-checkbox{
-    top: -10px;
+.quantidade-email-checkbox {
+  top: -10px;
 }
 
 .pages {
-    width: 75%;
-    margin: 1rem auto;
+  width: 75%;
+  margin: 1rem auto;
 }

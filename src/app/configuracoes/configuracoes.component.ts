@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ConfiguracoesService } from "./configuracoes.service";
 import { Router } from "@angular/router";
+import { AuthService } from "../auth/auth.service";
 
 @Component({
   selector: "app-configuracoes",
@@ -17,6 +18,7 @@ export class ConfiguracoesComponent implements OnInit {
 
   constructor(
     private configService: ConfiguracoesService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -44,5 +46,12 @@ export class ConfiguracoesComponent implements OnInit {
       .subscribe((result) => {
         this.router.navigate(["/"]);
       });
+  }
+
+  deleteUser() {
+    this.configService.deleteUser().subscribe((result) => {
+      this.authService.logout();
+      this.router.navigate(["/"]);
+    });
   }
 }

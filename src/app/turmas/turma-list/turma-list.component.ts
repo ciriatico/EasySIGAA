@@ -28,7 +28,7 @@ export class TurmaListComponent implements OnInit, OnDestroy {
   private monitoradasSub: Subscription;
 
   departamentos: number[];
-  filtroDepartamento: number;
+  filtroDepartamento: string;
   filtroProfessor: string;
   filtroNome: string;
 
@@ -87,7 +87,7 @@ export class TurmaListComponent implements OnInit, OnDestroy {
     this.filteredTurmas = this.turmas;
     if (this.filtroDepartamento) {
       this.filteredTurmas = this.filteredTurmas.filter(
-        (turma) => turma.codDepto == this.filtroDepartamento
+        (turma) => turma.nomeDepto == this.filtroDepartamento
       );
     }
 

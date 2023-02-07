@@ -23,7 +23,7 @@ const mailgunAuth = {
 const smtpTransport = nodemailer.createTransport(mg(mailgunAuth));
 
 async function sendEmail(data) {
-  const fake = false;
+  const fake = true;
 
   const mailOptions = {
     from: "admin@easysigaa.com.br",
@@ -124,7 +124,7 @@ async function sendEmail(data) {
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="https://viewstripo.email/" class="es-button" target="_blank">Ver turma monitorada</a></span></td>
+                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="http://localhost:4200/" class="es-button" target="_blank">${data.nomeDisciplina} - ${data.variacao} novas vagas</a></span></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
@@ -151,21 +151,10 @@ async function sendEmail(data) {
   };
 
   if (fake) {
-    const notificacao = new Notificacao({
-      usuarioId: data.usuarioId,
-      mudancaId: data.mudancaId,
-    });
-    notificacao.save().then((result) => {
-      console.log(mailOptions.html);
-    });
+    console.log("Enviando e-mail falso.");
   } else {
-    smtpTransport.sendMail(mailOptions).catch((result) => {
-      console.log("Successfully sent email.");
-      const notificacao = new Notificacao({
-        usuarioId: data.usuarioId,
-        mudancaId: data.mudancaId,
-      });
-      notificacao.save();
+    smtpTransport.sendMail(mailOptions).then((result) => {
+      console.log("E-mail enviado com sucesso.");
     });
   }
 }
@@ -182,6 +171,11 @@ async function sendNotifications(mudanca) {
     })
     .then((monitoradas) => {
       monitoradas.forEach((monitorada) => {
+        const notificacao = new Notificacao({
+          usuarioId: monitorada.usuarioId._id,
+          mudancaId: mudanca.mudancaId,
+        });
+        notificacao.save();
         if (!monitorada.usuarioId.receberNot) {
           sendEmail({
             usuarioId: monitorada.usuarioId._id,
@@ -204,6 +198,7 @@ async function sendMudanca(newMudanca) {
   });
   mudanca.save().then((result) => {
     if (newMudanca.variacao > 0) {
+      console.log(newMudanca.variacao);
       sendNotifications({
         mudancaId: mudanca._id,
         turmaId: mudanca.turmaId,
@@ -274,12 +269,14 @@ async function updateTurmas() {
       turmas.forEach((turma) => {
         updateTurma(turma);
       });
-      console.log("terminou aqui");
     })
     .catch((err) => {
       console.log(err);
     });
 }
+
+updateTurmasMonitoradas();
+
 // Atualiza cada turma. Trava o servidor, deve ser executada em intervalo de horas
 setInterval(updateTurmas, 3600000);
 // Atualiza apenas turmas monitoradas. Pode rodar de 5 em 5 min, gera dados falsos
@@ -295,7 +292,7 @@ router.get("", (req, res, next) => {
 });
 
 router.get("/departamentos", (req, res, next) => {
-  Turma.distinct("codDepto").then((data) => {
+  Turma.distinct("nomeDepto").then((data) => {
     res.status(200).json({
       message: "Departamentos retornados com sucesso",
       departamentos: data,
