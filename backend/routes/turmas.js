@@ -232,7 +232,7 @@ async function updateTurmasMonitoradas() {
       });
       idsMonitorados = [...idsMonitorados];
       axios
-        .post("http://localhost:8000/vagas", { data: idsMonitorados })
+        .post("http://fastapi:8000/vagas", { data: idsMonitorados })
         .then((res) => {
           res.data.forEach((turma) => {
             updateTurma(turma);
@@ -243,7 +243,7 @@ async function updateTurmasMonitoradas() {
 
 async function updateTurmas() {
   axios
-    .get("http://localhost:8000/oferta")
+    .get("http://fastapi:8000/oferta")
     .then((res) => {
       turmas = res.data;
       turmas.forEach((turma) => {

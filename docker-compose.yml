@@ -1,0 +1,17 @@
+version: '3'
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: fastapi/Dockerfile
+    ports:
+      - "8000:8000"
+
+  express:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - fastapi
