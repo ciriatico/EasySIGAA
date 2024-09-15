@@ -1,8 +1,5 @@
 const express = require("express");
 
-const nodemailer = require("nodemailer");
-const mg = require("nodemailer-mailgun-transport");
-
 const Turma = require("../models/turma");
 const Monitora = require("../models/monitora");
 const Mudanca = require("../models/mudanca");
@@ -13,17 +10,7 @@ const axios = require("axios");
 
 const router = express.Router();
 
-const mailgunAuth = {
-  auth: {
-    api_key: "",
-    domain: "",
-  },
-};
-
-const smtpTransport = nodemailer.createTransport(mg(mailgunAuth));
-
 async function sendEmail(data) {
-  const fake = true;
 
   const mailOptions = {
     from: "admin@easysigaa.com.br",
@@ -149,14 +136,7 @@ async function sendEmail(data) {
     
     </html>`,
   };
-
-  if (fake) {
-    console.log("Enviando e-mail falso.");
-  } else {
-    smtpTransport.sendMail(mailOptions).then((result) => {
-      console.log("E-mail enviado com sucesso.");
-    });
-  }
+  console.log("Enviando e-mail falso.");
 }
 
 async function sendNotifications(mudanca) {
