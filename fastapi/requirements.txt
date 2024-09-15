@@ -1,0 +1,6 @@
+fastapi
+pydantic
+pandas
+uvicorn
+selenium
+beautifulsoup4

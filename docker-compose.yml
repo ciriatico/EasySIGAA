@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: node-backend
+    ports:
+      - "5001:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .  # Diretório base onde está o Dockerfile do Angular
+    container_name: angular-frontend
+    ports:
+      - "4200:80"
+    networks:
+      - app-network
+
+  fastapi:
+    build:
+      context: ./fastapi
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
