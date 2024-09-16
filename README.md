@@ -20,31 +20,8 @@ Easysigaa é um sistema que auxilia os alunos da Universidade de Brasília a rea
 
 > git clone https://github.com/ciriatico/easysigaa.git
 
-2. Instale as dependências 
+2. Builde os contêineres 
 
-> 
-
-3. Configure o Banco de dados
-
-  - Crie uma conta no MongoDB;
-  - Crie um banco de dados vazio;
-  - Popule o banco com os dados das turmas (fastapi/data/data_db.csv);
-  - Altera a string de conexão em backend/app.js para do seu banco de dados criado;
-
-4. Configure o FastAPI
-
-  > pip install "fastapi[all]"
-
-5. Execute o projeto
-
-> ng serve
-> 
-> cd fastapi 
-> 
-> uvicorn main:app
->
-> node .\server.js -w
+> docker compose up
 
 A aplicação estará disponível em `http://localhost:4200/`.
-
-

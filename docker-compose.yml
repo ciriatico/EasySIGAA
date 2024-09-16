@@ -6,6 +6,8 @@ services:
       dockerfile: fastapi/Dockerfile
     ports:
       - "8000:8000"
+    networks:
+      - app-network
 
   express:
     build:
@@ -15,3 +17,35 @@ services:
       - "3000:3000"
     depends_on:
       - fastapi
+      - mongodb
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - express
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    volumes:
+      - mongodb-data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:

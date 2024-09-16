@@ -111,7 +111,7 @@ async function sendEmail(data) {
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="http://localhost:4200/" class="es-button" target="_blank">${data.nomeDisciplina} - ${data.variacao} novas vagas</a></span></td>
+                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="http://frontend:80/" class="es-button" target="_blank">${data.nomeDisciplina} - ${data.variacao} novas vagas</a></span></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
