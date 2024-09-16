@@ -1,8 +1,5 @@
 const express = require("express");
 
-const nodemailer = require("nodemailer");
-const mg = require("nodemailer-mailgun-transport");
-
 const Turma = require("../models/turma");
 const Monitora = require("../models/monitora");
 const Mudanca = require("../models/mudanca");
@@ -13,17 +10,7 @@ const axios = require("axios");
 
 const router = express.Router();
 
-const mailgunAuth = {
-  auth: {
-    api_key: "",
-    domain: "",
-  },
-};
-
-const smtpTransport = nodemailer.createTransport(mg(mailgunAuth));
-
 async function sendEmail(data) {
-  const fake = true;
 
   const mailOptions = {
     from: "admin@easysigaa.com.br",
@@ -124,7 +111,7 @@ async function sendEmail(data) {
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="http://localhost:4200/" class="es-button" target="_blank">${data.nomeDisciplina} - ${data.variacao} novas vagas</a></span></td>
+                                                                                        <td align="center" class="esd-block-button es-p40t es-p20b" ><span class="es-button-border" style="background-color: #3f51b5; padding: 10px 14px;"><a style="text-decoration: none; color: white; font-family: 'Roboto', sans-serif;" href="http://frontend:80/" class="es-button" target="_blank">${data.nomeDisciplina} - ${data.variacao} novas vagas</a></span></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
@@ -149,14 +136,7 @@ async function sendEmail(data) {
     
     </html>`,
   };
-
-  if (fake) {
-    console.log("Enviando e-mail falso.");
-  } else {
-    smtpTransport.sendMail(mailOptions).then((result) => {
-      console.log("E-mail enviado com sucesso.");
-    });
-  }
+  console.log("Enviando e-mail falso.");
 }
 
 async function sendNotifications(mudanca) {
@@ -252,7 +232,7 @@ async function updateTurmasMonitoradas() {
       });
       idsMonitorados = [...idsMonitorados];
       axios
-        .post("http://localhost:8000/vagas", { data: idsMonitorados })
+        .post("http://fastapi:8000/vagas", { data: idsMonitorados })
         .then((res) => {
           res.data.forEach((turma) => {
             updateTurma(turma);
@@ -263,7 +243,7 @@ async function updateTurmasMonitoradas() {
 
 async function updateTurmas() {
   axios
-    .get("http://localhost:8000/oferta")
+    .get("http://fastapi:8000/oferta")
     .then((res) => {
       turmas = res.data;
       turmas.forEach((turma) => {

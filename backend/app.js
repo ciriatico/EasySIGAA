@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors"); // Import cors package
 
 const turmasRoutes = require("./routes/turmas");
 const authRoutes = require("./routes/auth");
@@ -13,8 +14,9 @@ const app = express();
 
 mongoose.set("strictQuery", true);
 
+// Update the connection URI to connect to the MongoDB service in Docker Compose
 mongoose
-  .connect("mongodb+srv://root:root@cluster0.cstyiqc.mongodb.net/easysigaa", {
+  .connect("mongodb://mongodb:27017/easysigaa", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -28,18 +30,12 @@ mongoose
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
-});
+// Use CORS middleware
+app.use(cors({
+  origin: 'http://localhost:4200', // Allow requests from this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow necessary methods
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'], // Allow necessary headers
+}));
 
 app.use("/api/turmas", turmasRoutes);
 app.use("/api/auth", authRoutes);
