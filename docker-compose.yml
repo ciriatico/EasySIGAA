@@ -33,7 +33,7 @@ services:
       - app-network
 
   mongodb:
-    image: mongo:latest
+    image: mongo:7.0.14
     container_name: mongodb
     ports:
       - "27017:27017"

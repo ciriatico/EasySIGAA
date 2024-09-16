@@ -1,5 +1,5 @@
-fastapi
-uvicorn
-selenium
-pandas
-BeautifulSoup4
+fastapi==0.114.2
+uvicorn==0.30.6
+selenium==4.24.0
+pandas==2.2.2
+BeautifulSoup4==4.12.3
